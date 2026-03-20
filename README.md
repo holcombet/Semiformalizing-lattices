@@ -1,13 +1,26 @@
-# lattice_theory
+# Semi-Formalizing Ordered Sets, Lattices, and Frames
 
-## GitHub configuration
+Generating a dataset of informal, semi-formal, and formalized mathematics, based on the propositions, lemmas, theorems, and exercises found in mathematical texts. 
 
-To set up your new GitHub repository, follow these steps:
+At present, all proofs are taken from Davey-Priestly's Introduction to Lattices and Order. 
 
-* Under your repository name, click **Settings**.
-* In the **Actions** section of the sidebar, click "General".
-* Check the box **Allow GitHub Actions to create and approve pull requests**.
-* Click the **Pages** section of the settings sidebar.
-* In the **Source** dropdown menu, select "GitHub Actions".
+## Informal Proofs
 
-After following the steps above, you can remove this section from the README file.
+Proofs written in the informal "mathematical" language (i.e. natural language with mathematical symbols). Informal proofs rely heavily on intuition, "common sense", and implicit assumptions.
+
+...
+
+The informal proofs can be found in the `InformalProofs` directory.
+
+
+## Semi-formal Proofs
+
+...
+
+## Formal Proofs
+
+...
+
+The formal(ized) proofs can be found in the `LatticeTheory` directory. 
+
+At present, most of the proofs contain only the formalized proof statement, closed with the `sorry` tactic.
