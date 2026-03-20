@@ -9,7 +9,21 @@ import Mathlib.CategoryTheory.Category.Basic
 
 variable {α β : Type*}  --{π : ι → Type*}
 
-
+-- this is a terrible proof skeleton...
+lemma lemma_1_30 [Preorder α] (x y : α) :
+  (x ≤ y) ↔
+    (({z : α | z ≤ x} ⊆ {z : α | z ≤ y}) ↔
+      (∀ Q : LowerSet α, y ∈ Q → x ∈ Q)) := by
+  constructor
+  . intro h
+    constructor
+    . intro z lower
+      simp at z
+      sorry
+    . intro Q y_in_Q
+      sorry
+  . intro z_iff_q
+    sorry
 
 -- with typeclasses declared in the statement
 theorem exercise_1_7 [PartialOrder α] {a₁ a₂ b₁ b₂ : α} :
