@@ -2,11 +2,13 @@ name: Create Release
 
 on:
   push:
-    branches:
-      - 'main'
-      - 'master'
-    paths:
-      - 'lean-toolchain'
+    tags:
+        - 'v*'
+    # branches:
+    #   - 'main'
+    #   - 'master'
+    # paths:
+    #   - 'lean-toolchain'
 
 jobs:
   lean-release-tag:
