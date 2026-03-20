@@ -21,6 +21,6 @@ The informal proofs can be found in the `InformalProofs` directory.
 
 ...
 
-The formal(ized) proofs can be found in the `LatticeTheory` directory. 
+The formal(ized) proofs can be found in the `FormalProofs` directory. 
 
 At present, most of the proofs contain only the formalized proof statement, closed with the `sorry` tactic.
