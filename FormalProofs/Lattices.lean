@@ -1,17 +1,33 @@
 import Mathlib.Order.Basic
+import Mathlib.Order.Ideal
 import Mathlib.Order.Lattice
+import Mathlib.Order.Notation
+import Mathlib.Order.SetNotation
 import Mathlib.Order.CompleteLattice.Basic
 import Mathlib.Order.CompleteLattice.Defs
 import Mathlib.Order.Hom.CompleteLattice
 import Mathlib.Order.WellFounded
 import Mathlib.Order.UpperLower.Basic
 import Mathlib.Order.UpperLower.CompleteLattice
-import Mathlib.Order.Ideal
+import Mathlib.Tactic.TFAE
 
-variable {α β : Type*}
+variable {α β L K P: Type*}
 
 
+lemma lemma_2_8 [Lattice L] (a b : L) : List.TFAE [a ≤ b, a ⊔ b = b, a ⊓ b = a] := by
+  tfae_have 1 → 2 := by sorry
+  tfae_have 2 → 3 := by sorry
+  tfae_have 3 → 1 := by sorry
+  tfae_finish
 
+
+-- Cursor agent wrote this proof (it compiles)
+theorem proposition_2_19_i [Lattice L] [Lattice K] (f : L → K) :
+  List.TFAE [Monotone f, (∀ a b, f (a ⊓ b) = f a ⊓ f b), (∀ a b, f (a ⊔ b) = f a ⊔ f b)] := by
+  tfae_have 1 → 2 := by sorry
+  tfae_have 2 → 3 := by sorry
+  tfae_have 3 → 1 := by sorry
+  tfae_finish
 
 /- I don't know which one is better, assuming either is correct at all -/
 theorem proposition_2_19_ii [Lattice α] [Lattice β] (f : α → β) :
@@ -27,15 +43,85 @@ theorem proposition_2_19_ii' [Lattice α] [Lattice β] (f : α → β) :
   sorry
 
 
--- page 47
-lemma lemma_2_30 [Preorder α] (S : Set α) (hInf : ∀ S : Set α, S.Nonempty →
-  ∃ x, IsGLB S x) : ∀ S : Set α, BddAbove S → ∃ x, IsLUB S x := by
+-- cursor agent wrote this proof (it compiles)
+lemma lemma_2_22_i [PartialOrder P] (S : Set P)
+  (sSupS : P) (hsSupS : IsLUB S sSupS)
+  (sInfS : P) (hsInfS : IsGLB S sInfS) :
+  ∀ s : S, s ≤ sSupS ∧ s ≥ sInfS := by
+  intro s
+  apply And.intro
+  · apply hsSupS.1
+    simp
+  · apply hsInfS.1
+    simp
+
+
+
+lemma lemma_2_22_ii [PartialOrder P] (S : Set P) (x : P)
+  (sSupS : P) (hsSupS : IsLUB S sSupS)
+  (sInfS : P) (hsInfS : IsGLB S sInfS) :
+  x ≤ sInfS ↔ ∀ s : S, x ≤ s := by
+  constructor
+  · intro h s
+    sorry
+  · intro h
+    sorry
+
+
+
+lemma lemma_2_22_iii [PartialOrder P] (S : Set P) (x : P)
+  (sSupS : P) (hsSupS : IsLUB S sSupS)
+  (sInfS : P) (hsInfS : IsGLB S sInfS) :
+  x ≥ sSupS ↔ ∀ s : S, x ≥ s := by
   sorry
+
+lemma lemma_2_22_iv [PartialOrder P] (S T : Set P)
+  (sSupS : P) (hsSupS : IsLUB S sSupS)
+  (sInfS : P) (hsInfS : IsGLB S sInfS)
+  (sSupT : P) (hsSupT : IsLUB T sSupT)
+  (sInfT : P) (hsInfT : IsGLB T sInfT) :
+  sSupS ≤ sSupT ↔ ∀ s t, s ∈ S → t ∈ T → s ≤ t := by
+  -- idk if this is correct for declaring ∀ for two variables
+  sorry
+
+
+lemma lemma_2_22_v [PartialOrder P] (S T : Set P)
+  (sSupS : P) (hsSupS : IsLUB S sSupS)
+  (sInfS : P) (hsInfS : IsGLB S sInfS)
+  (sSupT : P) (hsSupT : IsLUB T sSupT)
+  (sInfT : P) (hsInfT : IsGLB T sInfT) :
+  S ⊆ T → sSupS ≤ sSupT ∧ sInfS ≥ sInfT := by
+  sorry
+
+
+
+
+lemma lemma_2_24 [Lattice P] (F : Set P) :
+  Nonempty F → (∃ sup, IsLUB F sup) ∧  (∃ inf, IsGLB F inf) := by
+  sorry
+
+
+
+-- page 47
+lemma lemma_2_30 [PartialOrder P] (S : Set P) (hInf : ∀ S : Set P, S.Nonempty →
+  ∃ x, IsGLB S x) : ∀ S : Set P, BddAbove S → ∃ x, IsLUB S x := by
+  sorry
+
+
+theorem theorem_2_31 [PartialOrder P] :
+    List.TFAE
+      [Nonempty (CompleteLattice P),
+        ∀ S : Set P, ∃ x, IsLUB S x,
+        (∃ t : P, ∀ y, y ≤ t) ∧ ∀ S : Set P, S.Nonempty → ∃ x, IsGLB S x] := by
+  tfae_have 1 → 2 := by sorry
+  tfae_have 2 → 3 := by sorry
+  tfae_have 3 → 1 := by sorry
+  tfae_finish
 
 -- should this be a lemma?
 -- page 52
-theorem lemma_2_39 [Preorder α] :
-  WellFoundedGT α ↔ ∀ A : Set α, A.Nonempty → ∃ a ∈ A, IsMax a := by
+theorem lemma_2_39 [PartialOrder P] :
+  WellFoundedGT P ↔ ∀ A : Set P, A.Nonempty → ∃ a ∈ A, IsMax a := by
   constructor
   -- the first intro was written by Cursor agent and compiles without error
   · intro h A nonempty_A
@@ -47,7 +133,7 @@ theorem lemma_2_39 [Preorder α] :
 
 
 -- this does not feel correct. It could definitely be improved/simplified
-theorem exercise_2_6_i [Preorder α] [InfSet α] (A : Set α) (hInf : ∃ x, IsGLB A x) :
-  Set.sInter ((fun a : α => (Order.Ideal.principal a : Set α)) '' A) =
-    (Order.Ideal.principal (sInf A) : Set α) := by
+theorem exercise_2_6_i [PartialOrder P] [InfSet P] (A : Set P) (hInf : ∃ x, IsGLB A x) :
+  Set.sInter ((fun a : P => (Order.Ideal.principal a : Set P)) '' A) =
+    (Order.Ideal.principal (sInf A) : Set P) := by
   sorry
