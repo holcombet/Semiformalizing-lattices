@@ -17,9 +17,20 @@ variable {α β L K P : Type*}
 
 
 lemma lemma_2_8 [Lattice L] (a b : L) : List.TFAE [a ≤ b, a ⊔ b = b, a ⊓ b = a] := by
-  tfae_have 1 → 2 := by sorry
-  tfae_have 2 → 3 := by sorry
-  tfae_have 3 → 1 := by sorry
+  tfae_have 1 → 2 := by
+    intro h
+    rw [sup_eq_right]
+    exact h
+  tfae_have 2 → 3 := by
+    intro h
+    have h' : a ⊓ (a ⊔ b) = a ⊓ b :=
+      congrArg (fun x => a ⊓ x) h
+    rw [inf_sup_self] at h'
+    exact h'.symm
+  tfae_have 3 → 1 := by
+    intro h
+    rw [← inf_eq_left]
+    exact h
   tfae_finish
 
 
