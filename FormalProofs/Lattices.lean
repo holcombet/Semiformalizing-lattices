@@ -10,8 +10,10 @@ import Mathlib.Order.WellFounded
 import Mathlib.Order.UpperLower.Basic
 import Mathlib.Order.UpperLower.CompleteLattice
 import Mathlib.Tactic.TFAE
+import Mathlib.Order.Preorder.Chain
+import Mathlib.Order.Sublattice
 
-variable {α β L K P: Type*}
+variable {α β L K P : Type*}
 
 
 lemma lemma_2_8 [Lattice L] (a b : L) : List.TFAE [a ≤ b, a ⊔ b = b, a ⊓ b = a] := by
@@ -137,3 +139,22 @@ theorem exercise_2_6_i [PartialOrder P] [InfSet P] (A : Set P) (hInf : ∃ x, Is
   Set.sInter ((fun a : P => (Order.Ideal.principal a : Set P)) '' A) =
     (Order.Ideal.principal (sInf A) : Set P) := by
   sorry
+
+
+theorem exercise_2_11 [Lattice L] :
+    List.TFAE
+      [IsChain (· ≤ ·) (Set.univ : Set L), -- Cursor wrote this line
+        ∀ S : Set L, S.Nonempty → IsSublattice S,
+        ∀ a b : Set L, IsSublattice (a ∪ b)] := by
+  sorry
+
+
+-- Cursor fixed the proof statement and proved it
+theorem exercise_2_19_i [Lattice L] [Lattice K] (S : Sublattice L) (M : L) (f : LatticeHom L K)
+    (hM : M ∈ S) : f M ∈ S.map f :=
+  S.mem_map_of_mem f hM
+
+
+-- theorem exercise_2_19_ii [Lattice L] [Lattice K] (S : Sublattice K) (N : K) (f : LatticeHom L K)
+--     (hN : N ∈ S) : N ∈ S.comap f :=
+--   S.mem_comap.mpr hN
