@@ -51,6 +51,11 @@ Some local set up is required for first time users of this tool (the following i
 
 (Note: I set mine in `~/.zshrc` to ensure I could use the `lean4-skills` tool in multiple repositories).
 
+Check in Cursor that Lean4-Skills is set up. To your Cursor agent, enter:
+```
+python3 "$LEAN4_SCRIPTS/sorry_analyzer.py" . --format=summary --report-only
+```
+
 See `Lean4-skills`'s [repo](https://github.com/cameronfreer/lean4-skills/tree/main) for documentation and command options.
 
 ## Overview/Description
