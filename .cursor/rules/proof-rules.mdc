@@ -1,0 +1,80 @@
+---
+globs: **/*.lean
+alwaysApply: false
+---
+
+---
+name: proof-rules
+description: "This rule provides standards for completing or progressing open goals in .lean files "
+alwaysApply: false
+---
+
+# Project Overview
+This is a Lean 4 / Mathlib project focused on Lattice Theory, Locales, and Frame Theory.
+The project formalizes order-theoretic and point-free topology structures including
+frames, locales, complete lattices, Heyting algebras, and related morphisms.
+
+# Proof Style
+- All proofs use tactic mode (by blocks). Do not write term-mode proofs unless the human explicitly requests it.
+- Prefer structured tactic blocks with clear indentation.
+- Use `calc` blocks for equational chains to make steps readable.
+- Use `have` and `obtain` liberally to name intermediate steps — do not collapse everything into a single tactic.
+- If a proof can be written collapsed into more concise tactics, include a comment below the proof that contains the shorter proof
+- Never use `decide` or `native_decide` for non-trivial goals.
+
+# Mathlib Style Guidelines
+- Follow Mathlib naming conventions strictly: snake_case, namespace-prefixed. Example: `Lattice.inf_comm`, `Frame.iSup_inf_eq`, not `infComm` or `myLemma`.
+- Theorem names should be descriptive and reflect the mathematical content, not the proof strategy.
+- Theorem names written by the human should not be modified.
+- Open only the namespaces you need. Avoid `open Classical` unless necessary.
+- Use `variable` blocks at the top of a section to avoid repeating typeclass assumptions on every declaration.
+- Always include typeclass assumptions in the most general form possible
+  (e.g., prefer `[CompleteLattice α]` over a more specific structure if it suffices).
+- Section and namespace boundaries should reflect mathematical organization, not proof convenience.
+
+# Key Mathematical Structures
+The following structures are central to this project — use the correct Mathlib typeclasses and do not reinvent them:
+- `Lattice`, `SemilatticeSup`, `SemilatticeInf` — basic lattice operations
+- `CompleteLattice` — for sSup/sInf over arbitrary sets
+- `HeytingAlgebra` — for the frame-theoretic implication (a → b)
+- `Frame` — complete lattice where ⊓ distributes over ⊔; use `Frame.iSup_inf_eq`
+- `Locale` — the opposite category of frames; morphisms reverse direction
+- `GaloisConnection` — for adjunctions between lattices
+- `OrderIso`, `LatticeHom`, `FrameHom` — for structure-preserving maps
+
+# Inline Comments
+- Every non-trivial `have` or `obtain` step must have a one-line comment
+  explaining its mathematical purpose, not just what tactic is being used.
+  Good: `-- the infinite distributive law gives us ⊔ distributes over ⊓ here`
+  Bad: `-- apply iSup_inf_eq`
+- Module-level docstrings (`/-! ... -/`) are required for every new file,
+  explaining what mathematical content the file covers.
+- Declaration-level docstrings (`/-- ... -/`) are required for every
+  `theorem`, `def`, and `instance` automatically generated. One sentence minimum.
+
+# Agent Behavior
+- Never close a proof with `sorry` as a final answer. Use `sorry` only as a temporary placeholder and always flag it explicitly with a comment:
+  `-- TODO: complete this proof`
+- Before attempting a proof, read the goal state using lean_goal and state the proof strategy in a comment block above the `by`.
+- When stuck on a goal, search Mathlib using lean_loogle or lean_leansearch before asking the human for guidance. Report what was searched and what was found (or not found) before escalating.
+- When you need human guidance, ask a specific mathematical question —
+  not a Lean syntax question. Example: "I need to know whether the
+  infinite distributive law holds in a SemilatticeSup — should I
+  strengthen the hypothesis to Frame?" not "What tactic should I use?"
+- Do not refactor or rename existing declarations without explicit instruction.
+- Do not add new imports without checking with the human first.
+
+# Mathlib Search Preferences
+- Prefer lean_local_search first for lemmas that may already exist in the project.
+- Use lean_loogle for type-signature-based search (e.g., searching for
+  lemmas with `⊓` and `iSup` in the conclusion).
+- Use lean_leansearch for natural language queries about frame/locale theory.
+- Always try `simp [Frame.iSup_inf_eq]` and `simp [inf_iSup_eq]` early
+  for frame distributivity goals before reaching for heavier tactics.
+
+# What NOT to Do
+- Do not use `aesop` as a first resort — try `simp`, `exact`, `apply` first.
+- Do not unfold definitions unnecessarily; prefer lemmas about the structure.
+- Do not introduce universe polymorphism unless the human requests it.
+- Do not use `Classical.choice` or `noncomputable` without flagging it
+  and confirming with the human.
