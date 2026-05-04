@@ -12,6 +12,8 @@ import Mathlib.Order.UpperLower.CompleteLattice
 import Mathlib.Tactic.TFAE
 import Mathlib.Order.Preorder.Chain
 import Mathlib.Order.Sublattice
+import Mathlib.Data.Finset.Lattice.Fold
+import Mathlib.Data.Set.Finite.Basic
 
 variable {α β L K P Q : Type*}
 
@@ -162,14 +164,26 @@ lemma lemma_2_22_v [PartialOrder P] (S T : Set P)
   (sSupT : P) (hsSupT : IsLUB T sSupT)
   (sInfT : P) (hsInfT : IsGLB T sInfT) :
   S ⊆ T → sSupS ≤ sSupT ∧ sInfS ≥ sInfT := by
-  sorry
+  intro hST
+  refine And.intro (IsLUB.mono hsSupS hsSupT hST) ?_
+  rw [ge_iff_le]
+  exact hsInfS.2 fun x hxS => hsInfT.1 (hST hxS)
 
 
 
 
-lemma lemma_2_24 [Lattice P] (F : Set P) :
-  Nonempty F → (∃ sup, IsLUB F sup) ∧  (∃ inf, IsGLB F inf) := by
-  sorry
+/-- Lemma 2.24 (Blyth): in a lattice, every **finite nonempty** subset has a join and a meet. -/
+lemma lemma_2_24 [Lattice P] (F : Set P) (hF : F.Finite) (hne : F.Nonempty) :
+    (∃ sup, IsLUB F sup) ∧ (∃ inf, IsGLB F inf) := by
+  classical
+  have hs : hF.toFinset.Nonempty := hF.toFinset_nonempty.mpr hne
+  refine And.intro ?_ ?_
+  · refine ⟨hF.toFinset.sup' hs id, ?_⟩
+    have h := Finset.isLUB_sup' hs
+    rwa [hF.coe_toFinset] at h
+  · refine ⟨hF.toFinset.inf' hs id, ?_⟩
+    have h := Finset.isGLB_inf' hs
+    rwa [hF.coe_toFinset] at h
 
 
 /-- Same inequality as the textbook, assuming only partial orders: `p` and `q` are *some* least
