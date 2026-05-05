@@ -37,6 +37,8 @@ lemma lemma_2_8 [Lattice L] (a b : L) : List.TFAE [a ≤ b, a ⊔ b = b, a ⊓ b
   tfae_finish
 
 
+-- TODO: This proof/proof statement is not correct. It fails for general lattices
+--       because it uses the fact that the lattice is totally ordered.
 /-- For a **totally ordered** domain `L`, order-preserving maps preserve binary `⊓` and `⊔`.
 This fails for general lattices; see e.g. Blyth, *Lattices and ordered algebraic structures* -/
 theorem proposition_2_19_i [LinearOrder L] [Lattice K] (f : L → K) :
@@ -147,15 +149,15 @@ lemma lemma_2_22_iii [PartialOrder P] (S : Set P) (x : P)
 
 lemma lemma_2_22_iv [PartialOrder P] (S T : Set P)
   (sSupS : P) (hsSupS : IsLUB S sSupS)
-  (sInfS : P) (hsInfS : IsGLB S sInfS)
-  (sSupT : P) (hsSupT : IsLUB T sSupT)
+  (sInfS : P) (_hsInfS : IsGLB S sInfS)
+  (sSupT : P) (_hsSupT : IsLUB T sSupT)
   (sInfT : P) (hsInfT : IsGLB T sInfT) :
   sSupS ≤ sInfT ↔ ∀ s t, s ∈ S → t ∈ T → s ≤ t := by
   constructor
   · intro h s t hs ht
     exact le_trans (hsSupS.1 hs) (le_trans h (hsInfT.1 ht))
   · intro h
-    sorry
+    exact hsSupS.2 fun s hs => hsInfT.2 fun t ht => h s t hs ht
 
 
 lemma lemma_2_22_v [PartialOrder P] (S T : Set P)
@@ -205,17 +207,27 @@ theorem lemma_2_27_ia [CompleteLattice P] [CompleteLattice Q] (φ : P →o Q) (S
 
 
 -- page 47
-lemma lemma_2_30 [PartialOrder P] (S : Set P) (hInf : ∀ S : Set P, S.Nonempty →
+lemma lemma_2_30 [PartialOrder P] (_S : Set P) (hInf : ∀ S : Set P, S.Nonempty →
   ∃ x, IsGLB S x) : ∀ S : Set P, BddAbove S → ∃ x, IsLUB S x := by
-  sorry
+  intro S hS
+  have hne : (upperBounds S).Nonempty := by simpa [BddAbove, upperBounds] using hS
+  obtain ⟨x, hx⟩ := hInf (upperBounds S) hne
+  exact ⟨x, (isGLB_upperBounds (s := S)).1 hx⟩
 
 
 theorem theorem_2_31 [PartialOrder P] :
     List.TFAE
-      [Nonempty (CompleteLattice P),
+      [Nonempty
+          { cl : CompleteLattice P //
+              cl.toCompleteSemilatticeSup.toPartialOrder = (inferInstance : PartialOrder P) },
         ∀ S : Set P, ∃ x, IsLUB S x,
         (∃ t : P, ∀ y, y ≤ t) ∧ ∀ S : Set P, S.Nonempty → ∃ x, IsGLB S x] := by
-  tfae_have 1 → 2 := by sorry
+  tfae_have 1 → 2 := by
+    rintro ⟨cl, hcl⟩
+    cases hcl
+    letI := cl
+    intro S
+    exact ⟨sSup S, isLUB_sSup S⟩
   tfae_have 2 → 3 := by sorry
   tfae_have 3 → 1 := by sorry
   tfae_finish
