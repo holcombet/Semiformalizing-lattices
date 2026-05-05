@@ -75,6 +75,9 @@ The informal proofs can be found in the `InformalProofs` directory.
 
 ## Formal Proofs
 
+TODO: categorize theorems vs lemmas properly
+
+
 ...
 
 The formal(ized) proofs can be found in the `FormalProofs/` directory. 
