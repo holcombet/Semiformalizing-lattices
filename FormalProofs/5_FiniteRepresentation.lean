@@ -15,6 +15,7 @@ import Mathlib.Order.Sublattice
 
 import Mathlib.Order.Atoms
 import Mathlib.Order.CompleteBooleanAlgebra
+import Mathlib.Order.Cover
 import Mathlib.Order.Irreducible
 
 variable {L K P Q B : Type*}
@@ -30,9 +31,25 @@ TODO: Figure out which is better: Finite, Fintype, Finset, Fin, OrderBot + Order
 -/
 
 -- OrderBot L means that L has a bottom element
-lemma lemma_5_3 [Lattice L] [OrderBot L] (x : L) :
-  ⊥ ⋖ x → SupIrred x  ∧ SupIrred x → ⊥ ⋖ x := by
-    sorry
+lemma lemma_5_3_i [Lattice L] [OrderBot L] (x : L) :
+  (⊥ ⋖ x → SupIrred x) := by
+    . intro h
+      constructor
+      · exact not_isMin_of_lt h.lt
+      · intro b c heq
+        by_cases hb : b = x
+        · exact Or.inl hb
+        · -- case `b ≠ x`: bound below `x`, so beneath `⊥ ⋖ x` forces `b = ⊥`; join absorbs into `c`.
+          have hb_le : b ≤ x := le_sup_left.trans_eq heq
+          have hb_lt : b < x := lt_of_le_of_ne hb_le hb
+          have hb_bot : b = ⊥ := by
+            by_cases hbot : b = ⊥
+            · exact hbot
+            · exact absurd hb_lt (h.2 (lt_of_le_of_ne bot_le (Ne.symm hbot)))
+          rw [hb_bot] at heq
+          exact Or.inr ((Eq.symm (bot_sup_eq c)).trans heq)
+
+
 
 lemma lemma_5_4 [CompleteBooleanAlgebra B] [IsAtomistic B] (a : B) :
   a = sSup { x | IsAtom x ∧ x ≤ a} := by
