@@ -29,10 +29,47 @@ TODO: Figure out which is better: Finite, Fintype, Finset, Fin, OrderBot + Order
   - OrderTop is a typeclass that requires a proof that the set has a top element.
 -/
 
--- OrderBot L means that L has a bottom element
-lemma lemma_5_3 [Lattice L] [OrderBot L] (x : L) :
-  ⊥ ⋖ x → SupIrred x  ∧ SupIrred x → ⊥ ⋖ x := by
+
+lemma lemma_5_3_i [Lattice L] [OrderBot L] (x : L) :
+  (⊥ ⋖ x → SupIrred x) := by
     sorry
+
+
+
+-- OrderBot L means that L has a bottom element
+-- lemma lemma_5_3 [Lattice L] [OrderBot L] (x : L) :
+--   (⊥ ⋖ x → SupIrred x)  ∧ (SupIrred x → ⊥ ⋖ x) := by
+--     constructor
+--     · intro h
+--       simp
+      -- simp only [bot_covBy_iff] at h
+      -- refine ⟨?_, ?_⟩
+      -- -- `⊥ < x`, so `x` is not minimal
+      -- · exact (IsAtom.bot_lt h).not_isMin
+      -- -- if `b ⊔ c = x` and `b < x` then `b = ⊥`; similarly if `c < x` then `x = ⊥`, impossible
+      -- · intro b c heq
+      --   have hb : b ≤ x := heq.symm ▸ le_sup_left
+      --   have hc : c ≤ x := heq.symm ▸ le_sup_right
+      --   by_cases hb_eq : b = x
+      --   · exact Or.inl hb_eq
+      --   · right
+      --     have b_lt : b < x := lt_of_le_of_ne hb hb_eq
+      --     have b_bot : b = ⊥ := h.2 b b_lt
+      --     by_cases hc_eq : c = x
+      --     · exact hc_eq
+      --     · have c_lt : c < x := lt_of_le_of_ne hc hc_eq
+      --       have c_bot : c = ⊥ := h.2 c c_lt
+      --       refine False.elim (h.ne_bot (Eq.trans (Eq.symm heq) ?_))
+      --       rw [b_bot, c_bot]
+      --       exact sup_bot_eq (a := (⊥ : L))
+    -- · intro h
+    --   -- Reverse direction fails for arbitrary lattices; e.g. a chain gives `SupIrred x` without
+    --   -- `CovBy ⊥ x`. TODO: weaken the claim or add hypotheses (modularity/distributivity, etc.).
+    --   sorry
+
+
+-- ¬IsMin a ∧ ∀ ⦃b c⦄, b ⊔ c = a → b = a ∨ c = a
+-- IsMin a = ∀ ⦃b : α⦄, b ≤ a → a ≤ b
 
 lemma lemma_5_4 [CompleteBooleanAlgebra B] [IsAtomistic B] (a : B) :
   a = sSup { x | IsAtom x ∧ x ≤ a} := by
