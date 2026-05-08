@@ -23,7 +23,15 @@ brew install ripgrep
 
 ### 2. First-time setup
 
-Run `lake build` before opening Cursor to ensure the Lean LSP starts
+In your terminal, run the following before opening Cursor to ensure the project builds and the Lean LSP starts properly:
+```
+lake update
+lake exe cache get
+lake build
+```
+
+To update lake and pull pre-compiled files from mathlib (instead of compiling locally).
+
 
 ### 3. Lean-LSP-MCP and Lean4-Skills
 

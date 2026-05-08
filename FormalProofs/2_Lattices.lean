@@ -205,8 +205,6 @@ theorem lemma_2_27_ia [CompleteLattice P] [CompleteLattice Q] (φ : P →o Q) (S
       (isLUB_sSup (φ '' S))
 
 
-
--- page 47
 lemma lemma_2_30 [PartialOrder P] (_S : Set P) (hInf : ∀ S : Set P, S.Nonempty →
   ∃ x, IsGLB S x) : ∀ S : Set P, BddAbove S → ∃ x, IsLUB S x := by
   intro S hS
@@ -232,9 +230,7 @@ theorem theorem_2_31 [PartialOrder P] :
   tfae_have 3 → 1 := by sorry
   tfae_finish
 
--- should this be a lemma?
--- page 52
-theorem lemma_2_39 [PartialOrder P] :
+lemma lemma_2_39 [PartialOrder P] :
   WellFoundedGT P ↔ ∀ A : Set P, A.Nonempty → ∃ a ∈ A, IsMax a := by
   constructor
   -- the first intro was written by Cursor agent and compiles without error
@@ -243,30 +239,3 @@ theorem lemma_2_39 [PartialOrder P] :
     exact ⟨a₁, ha₁, sorry⟩
   · intro h
     sorry
-
-
-
--- this does not feel correct. It could definitely be improved/simplified
-theorem exercise_2_6_i [PartialOrder P] [InfSet P] (A : Set P) (hInf : ∃ x, IsGLB A x) :
-  Set.sInter ((fun a : P => (Order.Ideal.principal a : Set P)) '' A) =
-    (Order.Ideal.principal (sInf A) : Set P) := by
-  sorry
-
-
-theorem exercise_2_11 [Lattice L] :
-    List.TFAE
-      [IsChain (· ≤ ·) (Set.univ : Set L), -- Cursor wrote this line
-        ∀ S : Set L, S.Nonempty → IsSublattice S,
-        ∀ a b : Set L, IsSublattice (a ∪ b)] := by
-  sorry
-
-
--- Cursor fixed the proof statement and proved it
-theorem exercise_2_19_i [Lattice L] [Lattice K] (S : Sublattice L) (M : L) (f : LatticeHom L K)
-    (hM : M ∈ S) : f M ∈ S.map f :=
-  S.mem_map_of_mem f hM
-
-
--- theorem exercise_2_19_ii [Lattice L] [Lattice K] (S : Sublattice K) (N : K) (f : LatticeHom L K)
---     (hN : N ∈ S) : N ∈ S.comap f :=
---   S.mem_comap.mpr hN

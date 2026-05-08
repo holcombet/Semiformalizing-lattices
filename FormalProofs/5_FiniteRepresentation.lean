@@ -32,44 +32,51 @@ TODO: Figure out which is better: Finite, Fintype, Finset, Fin, OrderBot + Order
 
 lemma lemma_5_3_i [Lattice L] [OrderBot L] (x : L) :
   (⊥ ⋖ x → SupIrred x) := by
-    sorry
+    intro h
+    constructor
+    · exact not_isMin_of_lt h.lt
+    · intro b c heq
+      by_cases hb_eq : b = x
+      · exact Or.inl hb_eq
+      · right
+        have hb_le : b ≤ x := le_sup_left.trans_eq heq
+        have hb_lt : b < x := lt_of_le_of_ne hb_le hb_eq
+        have hb_bot : b = ⊥ := by
+          by_cases hbot : b = ⊥
+          · exact hbot
+          · exact absurd hb_lt (h.2 (lt_of_le_of_ne bot_le (Ne.symm hbot)))
+        rw [hb_bot] at heq
+        rw [bot_sup_eq c] at heq
+        exact heq
 
 
-
--- OrderBot L means that L has a bottom element
--- lemma lemma_5_3 [Lattice L] [OrderBot L] (x : L) :
---   (⊥ ⋖ x → SupIrred x)  ∧ (SupIrred x → ⊥ ⋖ x) := by
---     constructor
---     · intro h
---       simp
-      -- simp only [bot_covBy_iff] at h
-      -- refine ⟨?_, ?_⟩
-      -- -- `⊥ < x`, so `x` is not minimal
-      -- · exact (IsAtom.bot_lt h).not_isMin
-      -- -- if `b ⊔ c = x` and `b < x` then `b = ⊥`; similarly if `c < x` then `x = ⊥`, impossible
-      -- · intro b c heq
-      --   have hb : b ≤ x := heq.symm ▸ le_sup_left
-      --   have hc : c ≤ x := heq.symm ▸ le_sup_right
-      --   by_cases hb_eq : b = x
-      --   · exact Or.inl hb_eq
-      --   · right
-      --     have b_lt : b < x := lt_of_le_of_ne hb hb_eq
-      --     have b_bot : b = ⊥ := h.2 b b_lt
-      --     by_cases hc_eq : c = x
-      --     · exact hc_eq
-      --     · have c_lt : c < x := lt_of_le_of_ne hc hc_eq
-      --       have c_bot : c = ⊥ := h.2 c c_lt
-      --       refine False.elim (h.ne_bot (Eq.trans (Eq.symm heq) ?_))
-      --       rw [b_bot, c_bot]
-      --       exact sup_bot_eq (a := (⊥ : L))
-    -- · intro h
-    --   -- Reverse direction fails for arbitrary lattices; e.g. a chain gives `SupIrred x` without
-    --   -- `CovBy ⊥ x`. TODO: weaken the claim or add hypotheses (modularity/distributivity, etc.).
-    --   sorry
-
-
--- ¬IsMin a ∧ ∀ ⦃b c⦄, b ⊔ c = a → b = a ∨ c = a
--- IsMin a = ∀ ⦃b : α⦄, b ≤ a → a ≤ b
+lemma lemma_5_3_ii [BooleanAlgebra L] (x : L) :
+  SupIrred x → ⊥ ⋖ x := by
+    intro h
+    constructor
+    · exact bot_lt_iff_ne_bot.mpr h.ne_bot
+    · intro c hc_lt
+      by_cases hc_eq : c = x
+      · intro hcx
+        rw [hc_eq] at hcx
+        exact lt_irrefl x hcx
+      · intro hcx
+        have hxdec : x = (x ⊓ c) ⊔ (x ⊓ cᶜ) := by
+          rw [← inf_sup_left, sup_compl_eq_top, inf_top_eq]
+        have xc_eq : x ⊓ c = c := inf_eq_right.mpr hcx.le
+        rw [xc_eq] at hxdec
+        rcases h.2 hxdec.symm with hecq | hinfx
+        · exact absurd hecq hc_eq
+        · have x_le_ccompl : x ≤ cᶜ := by
+            have hle := inf_le_right (a := x) (b := cᶜ)
+            rwa [hinfx] at hle
+          have cle : c ≤ cᶜ := hcx.le.trans x_le_ccompl
+          have c_le_bot : c ≤ ⊥ := by
+            rw [← inf_compl_eq_bot']
+            exact le_inf le_rfl cle
+          have cbot : c = ⊥ := le_antisymm c_le_bot bot_le
+          rw [cbot] at hc_lt
+          exact lt_irrefl ⊥ hc_lt
 
 lemma lemma_5_4 [CompleteBooleanAlgebra B] [IsAtomistic B] (a : B) :
   a = sSup { x | IsAtom x ∧ x ≤ a} := by
@@ -154,7 +161,10 @@ lemma lemma_5_18 [DistribLattice L] [Finite L] (P : Set L)
     sorry
 
 
--- theorem theorem_5_19 [PartialOrder P] [PartialOrder Q] [Finite P] [Finite Q]
---   (L : Order.Ideal P) (K : Order.Ideal Q) (f : BoundedLatticeHom L K)
---   (φf : P → Q) : φf = fun (y : Q) => min { x : P | y ∈ f (Order.Ideal.principal x) } := by
---     sorry
+
+-- theorem theorem_5_19_right [PartialOrder P] [PartialOrder Q] [Finite P] [Finite Q]
+--   (L : Order.Ideal P) (K : Order.Ideal Q) (f : Order.Ideal P → Order.Ideal Q)
+
+-- not happy with this -- need to look at it again
+
+-- theorem theorem_5_19_left [PartialOrder P] [PartialOrder Q]

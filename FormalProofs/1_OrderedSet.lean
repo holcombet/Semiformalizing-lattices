@@ -21,9 +21,6 @@ theorem lemma_1_17 [PartialOrder P] [PartialOrder Q] [Finite P] [Finite Q] (x y 
   tfae_have 3 → 1 := by sorry
   tfae_finish
 
-
-
-
 -- this is a terrible proof skeleton...
 -- TODO: use Order.Ideal instead of LowerSet because Order.Ideal is a bundled strictire
 --       of a set with the proof that it is a lower set.
@@ -31,16 +28,7 @@ lemma lemma_1_30 [PartialOrder α] (x y : α) :
   (x ≤ y) ↔
     (({z : α | z ≤ x} ⊆ {z : α | z ≤ y}) ↔
       (∀ Q : Order.Ideal α, y ∈ Q → x ∈ Q)) := by
-  constructor
-  . intro h
-    constructor
-    . intro z lower
-      simp at z
-      sorry
-    . intro Q y_in_Q
-      sorry
-  . intro z_iff_q
-    sorry
+  sorry
 
 
 -- TFAE version makes the proof much more similar to the informal proof.
@@ -57,15 +45,7 @@ lemma lemma_1_30' [PartialOrder P] (x y : P) :
 -- with typeclasses declared in the statement
 theorem exercise_1_7 [PartialOrder α] {a₁ a₂ b₁ b₂ : α} :
   (a₁, b₁) ⋖ (a₂, b₂) ↔ (a₁ = a₂ ∧ b₁ ⋖ b₂) ∨ (a₁ ⋖ a₂ ∧ b₁ = b₂) := by
-    constructor
-    . intro h
-      sorry
-    . intro h
-      sorry
-
-
-
-
+    sorry
 
 /-
 Show that ϕ: P → Q is order-preserving if and only if
