@@ -154,6 +154,7 @@ lemma corollary_5_13 [Lattice L] [Finite L] : List.TFAE [
 
 
 
+-- might have to be fintype?
 lemma lemma_5_18 [DistribLattice L] [Finite L] (P : Set L)
   (hp : P = { x : L | SupIrred x }) (h : L ≃o Order.Ideal P) :
   (Nonempty (BooleanAlgebra L) ↔ IsAntichain (· ≤ ·) P) ∧
