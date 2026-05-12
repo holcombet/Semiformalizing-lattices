@@ -163,8 +163,12 @@ lemma lemma_5_18 [DistribLattice L] [Finite L] (P : Set L)
 
 
 
--- theorem theorem_5_19_right [PartialOrder P] [PartialOrder Q] [Finite P] [Finite Q]
---   (L : Order.Ideal P) (K : Order.Ideal Q) (f : Order.Ideal P → Order.Ideal Q)
+
+-- theorem theorem_5_19_right [PartialOrder P] [PartialOrder Q] [Fintype P] [Fintype Q]
+--   (L : Set P) (hL : L = { s : P | LowerSet s}) (K : {s : Set Q | IsLowerSet s})
+--   (f : LatticeHom L K) (y : Q) :
+--   y ∈ K ↔ f y ∈ L := by
+--   sorry
 
 -- not happy with this -- need to look at it again
 
