@@ -94,5 +94,8 @@ We can turn this into a wider project of formalizing duality theorems.
   - What is the SOTA on autormalizing with open source tools?
   - What happens if we apply this to the vast literature of duality theorems?
   - How much help does autorformalization need from semiformal proof specs?
+  - Benchmark against different styles of informal and semiformal proofs.
   - Benchmark against different designs and different LLMs.
   - Benchmark autoformalization against human-in-the-loop interactive methods.
+  - Is there, or should we create, a markdown editor that can fold in an out indented subproofs? 
+    - Another useful feature would be the ability to import latex packages or even just small files with personal macrodefinitions.
