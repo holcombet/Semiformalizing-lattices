@@ -85,3 +85,14 @@ Then $g$ preserves join-prime elements.
 > QED
 
 There are still some bits missing to prove the theorem, but the idea is clear now: the left-adjoint restricted to join-irreducibles is going to be the $\phi$ of the theorem.
+
+The bijection between the arrows follows from the isomorphism $\hom(fa,b)\cong\hom(a,gb)$.
+
+We can turn this into a wider project of formalizing duality theorems.
+
+- Autoformalizing Stone duality.
+  - What is the SOTA on autormalizing with open source tools?
+  - What happens if we apply this to the vast literature of duality theorems?
+  - How much help does autorformalization need from semiformal proof specs?
+  - Benchmark against different designs and different LLMs.
+  - Benchmark autoformalization against human-in-the-loop interactive methods.
