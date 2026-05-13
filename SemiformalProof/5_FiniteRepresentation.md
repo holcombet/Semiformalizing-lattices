@@ -62,7 +62,7 @@ We prove this in several steps.
 
 **Lemma (right-adjoint):** If $A,B$ are complete lattices and $f:A\to B$ preserves joins, then $f$ has a right-adjoint $h:B\to A$.
 
-*Proof:* Follows from Lemma (left-adjoint) applied to $f^o:A^o\to B^o$ and the fact that $h^o\dashv f^o\dashv$ implies $f\dashv h$.
+*Proof:* Follows from Lemma (left-adjoint) applied to $f^o:A^o\to B^o$ and the fact that $h^o\dashv f^o$ implies $f\dashv h$.
 
 **Lemma (join-irred):** Let $f:A\to B$ be a complete lattice homomorphism.
 Let $g\dashv f$. 
@@ -71,8 +71,8 @@ Then $g$ preserves join-prime elements.
 *Proof*. 
 > Show: $g$ preserves join-prime elements
 >> Ass: $b\le c\vee c' \ \Rightarrow \ (b\le c) \vee (b\le c')$
->> Show: $g(b)\le a\vee a' \ \Rightarrow \ (g(b)\le a) \vee (b\le a')$
->>> Ass: $g(b)\le a\vee a'$
+>> Show: $gb\le a\vee a' \ \Rightarrow \ (gb\le a) \vee (gb\le a')$
+>>> Ass: $gb\le a\vee a'$
 >>> Show: $(gb\le a) \vee (gb\le a')$
 >>> Have $b\le f(a\vee a')$
 >>> Have $b\le fa\vee fa'$
@@ -84,4 +84,4 @@ Then $g$ preserves join-prime elements.
 >
 > QED
 
-There are still some bits missing, but the idea is that since the left-adjoint restricts to join-irreducible, this is going to be the $\phi$ of the theorem.
+There are still some bits missing to prove the theorem, but the idea is clear now: the left-adjoint restricted to join-irreducibles is going to be the $\phi$ of the theorem.
