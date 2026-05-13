@@ -83,3 +83,5 @@ Then $g$ preserves join-prime elements.
 >> QED
 >
 > QED
+
+There are still some bits missing, but the idea is that since the left-adjoint restricts to join-irreducible, this is going to be the $\phi$ of the theorem.
