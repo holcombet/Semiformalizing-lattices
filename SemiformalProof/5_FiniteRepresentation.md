@@ -1,6 +1,6 @@
 # Chapter 5
 
-**lemma_5_3_i** If $x$ is an atom, then $x$ is join-irreducible
+**lemma_5_3_i** Let L be a lattice with least element 0.If $x$ is an atom, then $x$ is join-irreducible.
 
 *Proof:*
 
@@ -20,6 +20,35 @@
 > > Have: $b\sqcup c = c = x$ QED
 > 
 > QED
+
+
+---
+
+**lemma_5__3_ii** Let L be a lattice with least element 0. Then if $L$ is a Boolean lattice, $x \in \mathcal{J}(L)$ implies that $x$ is an atom (i.e. $0 \lessdot x$).
+
+*Proof:*
+> Ass: $L$ is a Boolean lattice and $x$ is join-irreducible \
+> Show: $0 < x$ and  $0 \leq y < x$ implies $y = 0$ for some $y \in L$
+> Show: $0 < x$ 
+>> Have: $x$ is join-irreducible implies $x \neq 0$ \
+>> QED
+>
+> Show: $0 \sqcap y < x$
+>> Have: $y = x \sqcup y$ \
+>> Show: $y = 0$ 
+>>> Have: $x = x \lor y$ \
+>>> Have: $x = (x \sqcup y) \sqcap (y^c \sqcup y)$ \
+>>> Have: $x = (x \sqcap y^c) \sqcup y$ \
+>>> Have: $x = x \sqcap y^c$ \
+>>> Have: $x \leq y^c$ \
+>>> Have: $x \sqcap y \leq y^c \sqcap y$ \
+>>> Have: $y \leq y^c \sqcap y$ \
+>>> Have: $y \leq 0$ \
+>>> Have: $y = 0$ \
+>>> QED
+>
+> QED
+
 
 ---
 
