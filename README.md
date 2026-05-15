@@ -35,7 +35,18 @@ To update lake and pull pre-compiled files from mathlib (instead of compiling lo
 
 ### 3. Lean-LSP-MCP and Lean4-Skills
 
-The `Lean-LSP-MCP` configuration is included locally in this repo at `.cursor/mcp.json`.
+For the `Lean-LSP-MCP` make a file `~/.cursor/mcp.json` containing:
+
+```json
+{
+  "mcpServers": {
+    "lean-lsp": {
+      "command": "uvx",
+      "args": ["lean-lsp-mcp"]
+    }
+  }
+}
+```
 
 #### Using `Lean4-skills`
 
