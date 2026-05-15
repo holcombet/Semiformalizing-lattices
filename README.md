@@ -15,7 +15,7 @@ Install `uv` (required):
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-Install `ripgrep` (optional but recommended) ):
+Install `ripgrep` (optional but recommended):
 ```bash
 brew install ripgrep
 ```
