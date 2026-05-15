@@ -54,8 +54,6 @@ theorem theorem_2_19_i [Lattice L] [Lattice K] (f : L → K) : List.TFAE [
 def IsLatticeHom [Lattice L] [Lattice K] (f : L → K) : Prop :=
   (∀ x y, f (x ⊔ y) = f x ⊔ f y) ∧ (∀ x y, f (x ⊓ y) = f x ⊓ f y)
 
-
-
 theorem theorem_2_19_i' [Lattice L] [Lattice K] (f : L → K) :
   IsLatticeHom f → Monotone f := by
     sorry
@@ -202,13 +200,13 @@ theorem lemma_2_27_ia [CompleteLattice P] [CompleteLattice Q] (φ : P →o Q) (S
     lemma_2_27_of_isLUB (φ := φ) (S := S) (p := sSup S) (q := sSup (φ '' S)) (isLUB_sSup S)
       (isLUB_sSup (φ '' S))
 
-
-lemma lemma_2_30 [PartialOrder P] (_S : Set P) (hInf : ∀ S : Set P, S.Nonempty →
-  ∃ x, IsGLB S x) : ∀ S : Set P, BddAbove S → ∃ x, IsLUB S x := by
-  intro S hS
-  have hne : (upperBounds S).Nonempty := by simpa [BddAbove, upperBounds] using hS
-  obtain ⟨x, hx⟩ := hInf (upperBounds S) hne
-  exact ⟨x, (isGLB_upperBounds (s := S)).1 hx⟩
+-- TODO: check this
+lemma lemma_2_30 [PartialOrder P] (hInf : ∀ S : Set P, S.Nonempty → ∃ x, IsGLB S x) :
+  ∀ S : Set P, BddAbove S → ∃ x, IsLUB S x := by
+    intro S hS
+    have hne : (upperBounds S).Nonempty := by simpa [BddAbove, upperBounds] using hS
+    obtain ⟨x, hx⟩ := hInf (upperBounds S) hne
+    exact ⟨x, (isGLB_upperBounds (s := S)).1 hx⟩
 
 
 theorem theorem_2_31 [PartialOrder P] :
@@ -235,10 +233,15 @@ abbrev DCC (α : Type*) [LT α] : Prop := WellFoundedLT α
 
 lemma lemma_2_39 [PartialOrder P] :
   ACC P ↔ ∀ A : Set P, A.Nonempty → ∃ a ∈ A, IsMax a := by
-  constructor
-  -- the first intro was written by Cursor agent and compiles without error
-  · intro h A nonempty_A
-    obtain ⟨a₁, ha₁, hmin⟩ := h.wf.has_min A nonempty_A
-    exact ⟨a₁, ha₁, sorry⟩
-  · intro h
     sorry
+
+
+-- TODO: check this
+theorem theorem_2_40 [PartialOrder P] :
+  (∀ s : Set P, IsChain (· ≤ ·) s → s.Finite) ↔ ACC P ∧ DCC P := by
+    sorry
+
+
+theorem theore_2_41_i [Lattice P] :
+  ACC P → ∀ A : Set P, Nonempty A → ∃ (F : Finset A), Max F = Max A := by
+  sorry

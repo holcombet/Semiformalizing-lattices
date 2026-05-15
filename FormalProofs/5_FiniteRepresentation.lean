@@ -45,10 +45,7 @@ lemma lemma_5_3_i [Lattice L] [OrderBot L] (x : L) :
         exact heq
 
 
-/--
-Let L be a lattice with a least element 0.
-Then if L is a Boolean lattice, x ∈ J(L) implies 0 ⋖ x.
--/
+-- autoformalized proof
 lemma lemma_5_3_ii [BooleanAlgebra L] (x : L) :
   SupIrred x → ⊥ ⋖ x := by
     intro h
@@ -76,6 +73,42 @@ lemma lemma_5_3_ii [BooleanAlgebra L] (x : L) :
           have cbot : c = ⊥ := le_antisymm c_le_bot bot_le
           rw [cbot] at hc_lt
           exact lt_irrefl ⊥ hc_lt
+
+
+-- based on Semiformal proof
+lemma lemma_5_3_ii' [BooleanAlgebra L] (x : L) :
+  SupIrred x → ⊥ ⋖ x := by
+  intro h
+  constructor
+  · exact bot_lt_iff_ne_bot.mpr h.ne_bot
+  · intro y hy_lt
+    by_cases hy_eq : y = x
+    · intro hyx
+      rw [hy_eq] at hyx
+      exact lt_irrefl x hyx
+    · intro hyx
+      have hy_le : y ≤ x := le_of_lt hyx
+      have hy_inf_x : x ⊓ y = y := inf_eq_right.mpr hy_le
+      have hxdec : x = (x ⊔ y) ⊓ (yᶜ ⊔ y) := by
+        rw [compl_sup_eq_top, inf_top_eq, sup_of_le_left hy_le]
+      rw [← sup_inf_right x yᶜ y] at hxdec
+      rcases h.2 hxdec.symm with hy_irr | h_inf_compl
+      · have h_le_compl := le_of_inf_eq hy_irr
+        have h_inf_le := inf_le_inf_right y (h_le_compl)
+        rw [hy_inf_x] at h_inf_le
+        rw [compl_inf_eq_bot] at h_inf_le
+        rw [le_bot_iff] at h_inf_le
+        rw [h_inf_le] at hy_lt
+        exact lt_irrefl ⊥ hy_lt
+      · rw [h_inf_compl] at hy_inf_x
+        rw [h_inf_compl] at hyx
+        exact lt_irrefl x hyx
+
+
+
+
+
+
 
 
 /--
@@ -123,7 +156,8 @@ lemma corollary_5_6 [Lattice B] [OrderBot B] [OrderTop B] : List.TFAE [
 Let P be a finite ordered set. Then the map ε : x ↦ ↓x is an order-isomorphism from P onto J(O(P)).
 -/
 theorem theorem_5_9 [PartialOrder P] [Finite P] :
-  (∃ e : P ≃o Order.Ideal P, (e : P → Order.Ideal P) = Order.Ideal.principal) := by
+  ∃ e : P ≃o {x : LowerSet P | SupIrred x},
+  ∀ x : P, (e x : {x : LowerSet P | SupIrred x}) = LowerSet.Iic x := by
     sorry
 
 /--
@@ -148,17 +182,18 @@ lemma lemma_5_11 [DistribLattice L] [OrderBot L] (x : L) (h : x ≠ ⊥) :
 /-
 Birkhof's representation theorem for finite distributive lattices.
 -/
-theorem theorem_5_12 [DistribLattice L] [OrderBot L] (η : L → Order.Ideal L)
-  (hη : ∀ a : L, (η a : Set L) = { x : L | SupIrred x ∧ x ≤ a }) :
-  ∃ e : L ≃o Order.Ideal L, e.toFun = η := by
+theorem theorem_5_12 [DistribLattice L] [OrderBot L] :
+  ∃ η : L ≃o LowerSet ({x : L | SupIrred x}), ∀ a : L,
+  (η a : Set {x : L | SupIrred x}) = { x : L | SupIrred x ∧ x ≤ a } := by
     sorry
+
 
 
 lemma corollary_5_13 [Lattice L] [Finite L] : List.TFAE [
   Nonempty (DistribLattice L),
-  Nonempty (L ≃o Order.Ideal ({x : L | SupIrred x})),
-  Nonempty (L ≃o Order.Ideal L),
-  Nonempty (L ≃o LowerSet L), -- I don't know if this is correct
+  Nonempty (L ≃o LowerSet ({x : L | SupIrred x})),
+  Nonempty (L ≃o LowerSet L),
+  Nonempty (L ≃o Set L),
   ∃ n : ℕ, ∃ K : Sublattice (Set (Fin n)), Nonempty (L ≃o K)] := by
     tfae_have 1 → 2 := by sorry
     tfae_have 2 → 3 := by sorry
@@ -168,15 +203,11 @@ lemma corollary_5_13 [Lattice L] [Finite L] : List.TFAE [
     tfae_finish
 
 
-
--- might have to be fintype?
 lemma lemma_5_18 [DistribLattice L] [Finite L] (P : Set L)
-  (hp : P = { x : L | SupIrred x }) (h : L ≃o Order.Ideal P) :
+  (hp : P = { x : L | SupIrred x }) (h : L ≃o LowerSet P) :
   (Nonempty (BooleanAlgebra L) ↔ IsAntichain (· ≤ ·) P) ∧
   (IsChain (· ≤ ·) (Set.univ : Set L) ↔ IsChain (· ≤ ·) P) := by
     sorry
-
-
 
 
 theorem theorem_5_19_i [PartialOrder P] [Finite P] [PartialOrder Q]
