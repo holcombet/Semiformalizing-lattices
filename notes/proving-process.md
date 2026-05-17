@@ -101,4 +101,52 @@ closing a sorry.
 
 ---
 
+## The “classical layer” in proofs (e.g. `theorem_5_19_i`)
+
+Some sorries are closed using **`open Classical`**, **`Classical.choose` / `choose_spec`**, **`Classical.decEq`**, and **`Fintype.ofFinite`**. This section explains what that layer is, why it helps, why it limits you, and what it means for theorems that depend on such proofs.
+
+### What the classical layer is
+
+1. **`open Classical` / `Classical.choice`**  
+   Constructive logic does not assume that every nonempty type has a chosen witness. **Choice** lets you pick an element whenever you know `∃ x, P x`—for example picking a **minimal** feasible witness per `y` via `Classical.choose` after proving a nonempty finite set has a minimal element.
+
+2. **`Classical.decEq` / `DecidableEq`**  
+   On an arbitrary type, equality may not be decidable. **Classical** logic makes every proposition decidable, so you can obtain `DecidableEq P` and `DecidableEq Q` even without a real decision procedure. That supports **`Finset.filter`**, **`Finset` membership**, and lemmas expecting decidable predicates.
+
+3. **Promoting `Finite P` to `Fintype P`**  
+   `[Finite P]` asserts existence of a finitness witness; many tools want a fixed **`Fintype`** (e.g. `Finset.univ`). **`Fintype.ofFinite`** uses classical ideas to supply that instance so you can work with `Finset` uniformly.
+
+Together: **choice**, **decidable equality “by logic”**, and **convenient finite infrastructure** for `Finset`/`univ`.
+
+### Why it is helpful
+
+- Matches **everyday textbook steps** (“for each `y`, pick a minimal element of a nonempty finite set”).
+- Unlocks **`Finset`**-based arguments without hand-building enumerations and `DecidableEq` instances.
+- Keeps proofs **shorter**; avoiding it often means extra constructive structure or a different proof.
+
+### Why it is a limitation
+
+- **Not computationally meaningful**: `Classical.choose` does not yield an algorithm from the existence proof; you do not get executable “compute `φ(y)`” from that proof alone.
+- **`DecidableEq` can be “fake”**: instances may exist only classically, which can conflict with goals that need **real** computational decidability or clean extraction.
+- **Axiom footprint**: these proofs sit on the usual classical stack (`Classical.choice`, often `propext`, etc.). That is normal in Mathlib-style math but matters if you aim for **choice-free**, **HoTT-style**, or **minimal-axiom** developments.
+
+**One-line summary:** classical machinery makes theorems **easy to state and prove like on paper**; it does not, by itself, give **programs** or **canonical computable witnesses**.
+
+### How this affects theorems that use such a proof
+
+**What propagates:** A later theorem that **uses** a lemma proved with choice does **not** get a different logical *type*. The conclusion is still a normal `Prop`. What propagates is **non-constructivity** and the **axiom dependency chain**: your final theorem is typically **no more constructive** than the lemmas it uses (check with “list axioms” style tools if you care).
+
+**Usually harmless (Mathlib-style work):** If the project already treats mathematics classically and you only care about **truth of implications**, depending on classical lemmas is **standard** and not a logical problem.
+
+**Where it bites:**
+
+1. **Code extraction / computation** — you cannot turn `Classical.choose` into runnable code without a separate constructive definition or explicit algorithm.
+2. **Strict foundational hygiene** — proofs that **forbid choice** cannot depend on these lemmas without refactoring.
+3. ** Decidable instances** — downstream code that assumes **operational** `Decidable` behavior may be disappointed if instances came only from classical blanket decidability.
+
+**Short summary:** Downstream theorems keep the **same statements** and remain **valid classically**; they generally **do not** inherit **computable witnesses** unless you strengthen proofs or assumptions later.
+
+---
+
 *Add new sections below for future sorries using the same template: tag, location, tools, reasoning, pitfalls.*
+
