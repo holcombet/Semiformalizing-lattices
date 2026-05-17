@@ -1,11 +1,12 @@
-# Chapter 5 — category-theoretic track
+# Duality for Finite Bounded Distributive Lattices
 
-Chapter id: `5_FiniteRepresentation-cat`. Forked from the book-aligned outline (`5_FiniteRepresentation.md` and siblings). Develop finite representation here in a category-theoretic style.
+Chapter id: `5_FiniteRepresentation-cat`. Semiformal lemmas (`>` steps). Informal proof of the main theorem: `5_FiniteRepresentation-cat-informal.md`.
 
 ---
 
-**Lemma (atoms are join-irreducible)**
-**lemma_5_3_i** 
+The first propositions are a warmup, partly to fix the notation and style of semiformal proofs.
+
+**Prop (atoms are join-irreducible)**
 Let L be a lattice with least element 0.If $x$ is an atom, then $x$ is join-irreducible.
 
 *Proof:*
@@ -30,8 +31,7 @@ Let L be a lattice with least element 0.If $x$ is an atom, then $x$ is join-irre
 
 ---
 
-**Lemma (in a BA, join-irreducibles are atoms)**
-**lemma_5_3_ii** 
+**Prop (in a BA, join-irreducibles are atoms)**
 Let L be a lattice with least element 0. Then if $L$ is a Boolean lattice, $x \in \mathcal{J}(L)$ implies that $x$ is an atom.
 
 *Proof:*
@@ -62,28 +62,14 @@ Let L be a lattice with least element 0. Then if $L$ is a Boolean lattice, $x \i
 
 --- 
 
-**Theorem (representation theorem for finite bounded distributive lattices)**
+**Lemma (Galois adjunction):** 
+If $f:A\to B$ and $g:B\to A$ are monotone functions between posets, then $f\dashv g$ if and only if $a\le gfa$ and $fgb\le b$.
 
----
-
-**theorem_5_19**
-Let $P$ and $Q$ be finite partially ordered sets.
-Let $L$ be the lattice of downsets of $P$ and let $K$ be the lattice of downsets of $Q$.
-
-1. Let $f:L\to K$ be a lattice homomorphism.
-    Then there is an order-preserving map $\phi:Q\to P = \bigwedge \{ x\in P \mid y\in f({\downarrow}(x))\}$. 
-
-2. Let ϕ:Q→P be an order-preserving map.
-Then there is a bounded lattice morphism f:L→K defined by $f(a)=ϕ^{−1}(a)$ for all $a\in L$.
-Equivalently, $ϕ(y)\in a$ if and only if $y ∈f(a)$ for all $a∈L, y ∈Q$.
-
-1. This establishes a bijection between bounded lattice homomorphisms and monotone maps.
-
-We prove this in several steps.
-
-**Lemma (adjunction):** If $f:A\to B$ and $g:B\to A$ are monotone functions between posets, then $f\dashv g$ if and only if $a\le gfa$ and $fgb\le b$.
+*Proof:* Hopefully that is already in mathlib
 
 **Lemma (left-adjoint):** If $A,B$ are complete lattices and $f:A\to B$ preserves meets, then $f$ has a left-adjoint $g:B\to A$.
+
+*Proof:*
 
 > Show: There is a left-adjoint $g$.
 > Define: $g(b)=\bigwedge\{a \mid f(a)\le b\}$.
@@ -103,11 +89,13 @@ We prove this in several steps.
 >
 > QED
 
-**Lemma (right-adjoint):** If $A,B$ are complete lattices and $f:A\to B$ preserves joins, then $f$ has a right-adjoint $h:B\to A$.
+**Lemma (right-adjoint):** 
+If $A,B$ are complete lattices and $f:A\to B$ preserves joins, then $f$ has a right-adjoint $h:B\to A$.
 
 *Proof:* Follows from Lemma (left-adjoint) applied to $f^o:A^o\to B^o$ and the fact that $h^o\dashv f^o$ implies $f\dashv h$.
 
-**Lemma (join-irred):** Let $f:A\to B$ be a complete lattice homomorphism.
+**Lemma (join-irred):** 
+Let $f:A\to B$ be a complete lattice homomorphism.
 Let $g\dashv f$. 
 Then $g$ preserves join-prime elements.
 
@@ -126,19 +114,3 @@ Then $g$ preserves join-prime elements.
 >> QED
 >
 > QED
-
-There are still some bits missing to prove the theorem, but the idea is clear now: the left-adjoint restricted to join-irreducibles is going to be the $\phi$ of the theorem.
-
-The bijection between the arrows follows from the isomorphism $\hom(fa,b)\cong\hom(a,gb)$.
-
-We can turn this into a wider project of formalizing duality theorems.
-
-- Autoformalizing Stone duality.
-  - What is the SOTA on autormalizing with open source tools?
-  - What happens if we apply this to the vast literature of duality theorems?
-  - How much help does autorformalization need from semiformal proof specs?
-  - Benchmark against different styles of informal and semiformal proofs.
-  - Benchmark against different designs and different LLMs.
-  - Benchmark autoformalization against human-in-the-loop interactive methods.
-  - Is there, or should we create, a markdown editor that can fold in an out indented subproofs? 
-    - Another useful feature would be the ability to import latex packages or even just small files with personal macrodefinitions.

@@ -12,9 +12,9 @@ This repository keeps **three proof layers** per chapter. Day-to-day work on mat
 
 When statements conflict, **Lean wins for mathematics**; the human file wins for **what you choose to teach**.
 
-The **human** layer is outside the formalize/informalize loop: assistants do not edit it by default. You may seed `-ai.md` from the human file, or promote sections upward when you choose.
+The **human** layer is outside the formalize / semi-informalize loop: assistants do not edit it by default. Informal proof sketches in human `.md` are governed by `notes/informal-proof-policy.md` (**informalize**, **semiformalize**). You may seed `-ai.md` from the human file, or promote sections upward when you choose.
 
-## Workflow: formalize and informalize
+## Workflow: formalize and semi-informalize
 
 The active loop is between **`-ai.md`** and **`.lean`**.
 
@@ -27,7 +27,7 @@ The active loop is between **`-ai.md`** and **`.lean`**.
     │         AI  (-ai.md)                │
     └──────────────┬──────────────────────┘
                    │
-         formalize  │  informalize
+         formalize  │  semi-informalize
          (-ai → Lean)│  (Lean → -ai)
                    ▼
     ┌─────────────────────────────────────┐
@@ -55,7 +55,7 @@ The active loop is between **`-ai.md`** and **`.lean`**.
 
 **Does not** edit the human `*.md` unless you explicitly ask.
 
-### Informalize
+### Semi-informalize
 
 **Direction:** `FormalProofs/<Chapter>.lean` → `SemiformalProof/<Chapter>-ai.md`
 
@@ -75,7 +75,7 @@ If the item exists only in Lean (no human section), write a new `-ai.md` section
 4. If Lean is `sorry`, keep the human copy and mark remaining gaps (`> TODO:`); label is still **collaboration** if you changed any human line, otherwise **human**.
 5. Set the **dual-name heading** (human line + Lean line when names differ). Update `-bridge.md` only while that file still exists.
 
-**Triggers:** New Lean lemma with no `-ai.md` section; proof completed and prose is stale; bridge row with `—` in the human column but Lean present; you ask to “informalize `lemma_5_4`”.
+**Triggers:** New Lean lemma with no `-ai.md` section; proof completed and prose is stale; bridge row with `—` in the human column but Lean present; you ask to “semi-informalize `lemma_5_4`”.
 
 **Does not** edit the human `*.md` unless you explicitly ask.
 
@@ -83,22 +83,23 @@ If the item exists only in Lean (no human section), write a new `-ai.md` section
 
 | Situation | Usual next step |
 |-----------|-----------------|
-| Semiformal idea exists only in human `.md` | **Informalize** (copies human block into `-ai.md`, then completes from Lean) or you paste into `-ai.md`, then **formalize** |
+| Informal sketch only in human `.md` | **informalize** (continue prose) or **semiformalize** (copy into `-ai.md` with `>` steps), then **formalize** when ready |
+| Semiformal idea in human `.md`, no `-ai.md` yet | **semiformalize** or paste into `-ai.md`, then **formalize** |
 | Sketch in `-ai.md`, no Lean yet | **Formalize** |
-| Lean exists, `-ai.md` missing or outdated | **Informalize** |
-| Lean proof changed materially | **Informalize** (refresh `-ai.md`) |
+| Lean exists, `-ai.md` missing or outdated | **Semi-informalize** |
+| Lean proof changed materially | **Semi-informalize** (refresh `-ai.md`) |
 | `-ai.md` sketch revised for strategy | **Formalize** again |
 | Happy with AI layer for pedagogy | Optional promotion into human `.md` (your edit) |
 
 The loop may run many times per lemma. **`-ai.md` is not discarded** when you promote to human prose or when Lean catches up.
 
-Role cards: `notes/agents/formalize.md`, `notes/agents/informalize.md`, `notes/agents/compare.md`.
+Role cards: `notes/agents/informalize.md`, `notes/agents/semiformalize.md`, `notes/agents/semi-informalize.md`, `notes/agents/formalize.md`, `notes/agents/compare.md`. Informal human layer: `notes/informal-proof-policy.md`.
 
 ### Compare (read-only alignment check)
 
 **Compare** reads semiformal and Lean side by side and reports **alignment** by tier (statement, structural, step-complete, packaging, formal parity). Default project tolerance—“**close enough**” in conversation—means **statement + structural** alignment for human `.md` vs Lean, and **step-complete** for `-ai.md` vs Lean when proved. The human may tighten or loosen tiers; assistants start from defaults in `notes/agents/compare.md` and adapt when the user refines them.
 
-Run compare after informalize/formalize or when accepting a proof in human `.md` without promoting every gap to `-ai.md`. Compare does not edit proofs unless explicitly asked (e.g. to add a `*Remark:*` table in `-ai.md`).
+Run compare after semi-informalize/formalize or when accepting a proof in human `.md` without promoting every gap to `-ai.md`. Compare does not edit proofs unless explicitly asked (e.g. to add a `*Remark:*` table in `-ai.md`).
 
 ## Filenaming convention
 
@@ -128,11 +129,11 @@ Use the **same chapter stem** across layers. Example for chapter 5:
 - Semiformal proofs you curate; follow *Semiformal section layout (human)*.
 - Use `*Proof (human):*` in new or revised sections (not bare `*Proof:*`). Existing `*Proof:*` counts as human when copied into `-ai.md`.
 - High friction for automated edits; change only with your explicit consent.
-- Not required to stay in lockstep with every formalize/informalize pass.
+- Not required to stay in lockstep with every formalize / semi-informalize pass.
 
 ### AI — `SemiformalProof/<Chapter>-ai.md`
 
-- Full semiformal sections; primary **informalize** target and **formalize** source.
+- Full semiformal sections; primary **semi-informalize** target and **formalize** source.
 - **When human `.md` has the same item:** verbatim copy of the human section (headings, statement, `*Remark:*`, proof label, `>` steps), then extend; see *Semiformal section layout (AI)*.
 - **When human `.md` has no item:** new section in human file style only.
 - **Human ↔ Lean names** are recorded in the heading block (*Section headings and dual names*); this replaces the bridge table over time.
@@ -247,7 +248,7 @@ The bridge file is a **transitional** index. The long-term layout is: correspond
 | Notes (namespace, mismatches) | End of section in `-ai.md` |
 | Proposed human-outline updates | `## Proposed human-outline updates` at end of `-ai.md` or end of chapter `-bridge.md` until retired |
 
-**While `-bridge.md` still exists:** keep it in sync when you touch a row, but **prefer adding or fixing dual-name headings in `-ai.md`** on every formalize/informalize pass. Do not create bridge-only mappings with no `-ai.md` section.
+**While `-bridge.md` still exists:** keep it in sync when you touch a row, but **prefer adding or fixing dual-name headings in `-ai.md`** on every formalize / semi-informalize pass. Do not create bridge-only mappings with no `-ai.md` section.
 
 **When a chapter’s `-ai.md` has dual-name headings for every Lean declaration you care about**, you may stop updating or delete that chapter’s `-bridge.md`.
 
@@ -259,18 +260,18 @@ Do not use bare `*Proof:*` in `-ai.md`. Place the proof label **after** the opti
 |-------|-------------|
 | `*Proof (human):*` | Verbatim copy from human `.md`; no assistant or Lean-driven edits to the proof steps yet. |
 | `*Proof (semiformalized from lean):*` | No human section to copy; proof text written from Lean only. |
-| `*Proof (human–ai–lean collaboration):*` | Human block was copied and then extended or corrected using informalize/formalize (filled `...`, new steps, Lean alignment). |
+| `*Proof (human–ai–lean collaboration):*` | Human block was copied and then extended or corrected using semiformalize / semi-informalize / formalize (filled `...`, new steps, Lean alignment). |
 
 **Rules:**
 
-- After **informalize** on an item that exists in human `.md`, upgrade the label to `*Proof (human–ai–lean collaboration):*` once any proof step is added or changed beyond the human copy (including replacing `> ...`).
+- After **semi-informalize** (or **semiformalize**) on an item that exists in human `.md`, upgrade the label to `*Proof (human–ai–lean collaboration):*` once any proof step is added or changed beyond the human copy (including replacing `> ...`).
 - If you only refresh wording without changing the human proof lines, keep `*Proof (human):*` or note at the end of the section.
 - One label per section (not multiple `*Proof …*` blocks for the same lemma unless you deliberately split parts—say so in a one-line note under the heading).
-- **Formalize** does not change the label by itself; re-run **informalize** after material Lean changes if the semiformal text should catch up, then use **collaboration** if steps changed.
+- **Formalize** does not change the label by itself; re-run **semi-informalize** after material Lean changes if the semiformal text should catch up, then use **collaboration** if steps changed.
 
 ### Lean — `FormalProofs/<Chapter>.lean`
 
-- Primary **formalize** target; primary input for **informalize**.
+- Primary **formalize** target; primary input for **semi-informalize**.
 - Doc comments anchor meaning next to code.
 
 ### Bridge — `SemiformalProof/<Chapter>-bridge.md` (optional)
@@ -283,7 +284,7 @@ Do not use bare `*Proof:*` in `-ai.md`. Place the proof label **after** the opti
 
 1. **One human-facing semiformal source** per chapter (`*.md`).
 2. **Lean is authoritative for correctness** when prose and code disagree.
-3. **Routine work cycles between `-ai.md` and `.lean`** via formalize and informalize.
+3. **Routine work cycles between `-ai.md` and `.lean`** via formalize and semi-informalize.
 4. **Assistants do not rewrite human semiformal by default.**
 
 ## What assistants should do by default
@@ -294,7 +295,7 @@ Do not use bare `*Proof:*` in `-ai.md`. Place the proof label **after** the opti
 | **Informalize** | `SemiformalProof/<Chapter>-ai.md` (headings + body) | `.lean`, human `.md` (style); `-bridge.md` if present |
 | Either | — | Do not edit human `*.md` without explicit instruction |
 
-Say which mode you want in chat (“formalize `theorem_5_5`”, “informalize everything with `sorry` in chapter 5”).
+Say which mode you want in chat (“formalize `theorem_5_5`”, “semi-informalize everything with `sorry` in chapter 5”).
 
 ### Human consent and rare prose suggestions
 
@@ -304,11 +305,11 @@ Ideas for the human `*.md` go in **`## Proposed human-outline updates`** at the 
 
 | Mechanism | Role |
 |-----------|------|
-| Formalize / informalize loop | Keep `-ai.md` and `.lean` in sync |
+| Formalize / semi-informalize loop | Keep `-ai.md` and `.lean` in sync |
 | Compare (`notes/agents/compare.md`) | Alignment verdict before accepting “close enough” |
 | Dual-name headings in `-ai.md` | Human ↔ Lean lookup (replaces bridge over time) |
 | `*-bridge.md` | Optional until headings are complete |
-| Lean doc comments | Stable anchors for informalize |
+| Lean doc comments | Stable anchors for semi-informalize |
 | Occasional human merge | Fold stable material into `*.md` when you choose |
 
 ## When to edit the human layer
@@ -317,8 +318,8 @@ Update `SemiformalProof/<Chapter>.md` when you want pedagogy or narrative change
 
 ## Who “agents” means
 
-Any automated assistant may run **formalize** or **informalize** under this policy. **You** own the human layer. For role ids and harness patterns, see `notes/multi-agent-specifications.md`.
+Any automated assistant may run **formalize** or **semi-informalize** under this policy. **You** own the human layer. For role ids and harness patterns, see `notes/multi-agent-specifications.md`.
 
 ## Summary
 
-Three layers: **human** `.md`, **AI** `-ai.md`, **Lean** `.lean`. The working loop is **formalize** and **informalize**. Shared **section layout**: title + id headings, optional `*Remark:*`, `*Proof (…):*`, indented `Ass` / `Have` / `Show` / `Case` steps. **`-ai.md`** copies human blocks and adds a Lean bold line only when the declaration name ≠ the id line. **Bridge** `-bridge.md` is optional and may be retired. Human prose stays yours unless you say otherwise.
+Three layers: **human** `.md`, **AI** `-ai.md`, **Lean** `.lean`. The working loop is **formalize** and **semi-informalize**; informal human sketches use **informalize** / **semiformalize** (`notes/informal-proof-policy.md`). Shared **section layout**: title + id headings, optional `*Remark:*`, `*Proof (…):*`, indented `Ass` / `Have` / `Show` / `Case` steps. **`-ai.md`** copies human blocks and adds a Lean bold line only when the declaration name ≠ the id line. **Bridge** `-bridge.md` is optional and may be retired. Human prose stays yours unless you say otherwise.

@@ -7,7 +7,7 @@ Sibling files:
 - Human semiformal outline: `SemiformalProof/5_FiniteRepresentation.md`.
 - Bridge table: `SemiformalProof/5_FiniteRepresentation-bridge.md`.
 - Formal Lean: `FormalProofs/5_FiniteRepresentation.lean`.
-- Policy: `notes/semiformal-proof-policy.md`. Informalize role: `notes/agents/informalize.md`.
+- Policy: `notes/semiformal-proof-policy.md`. Semi-informalize: `notes/agents/semi-informalize.md`.
 
 When an item exists in the human `.md`, copy the **full** block (title + id headings, statement, `*Remark:*`, proof, `>` steps) per `notes/semiformal-proof-policy.md` (*Semiformal section layout*). Add a third bold `` **`lean_name`** `` line only when Lean ≠ the human id line. Use `*Proof (human):*`, `*Proof (semiformalized from lean):*`, or `*Proof (human–ai–lean collaboration):*` — not bare `*Proof:*`.
 

@@ -20,13 +20,13 @@ Mathlib may use $\bot$, $\sqcap$, $\sqcup$, and cover notation instead of book w
 
 ### When to formalize
 
-New or revised proof text in `-ai.md`; closing a `sorry`; user asks to formalize a declaration (e.g. `lemma_5_4`). After a successful run, suggest `compare` and, if needed, `informalize` so `-ai.md` matches the finished proof.
+New or revised proof text in `-ai.md`; closing a `sorry`; user asks to formalize a declaration (e.g. `lemma_5_4`). After a successful run, suggest `compare` and, if needed, `semi-informalize` so `-ai.md` matches the finished proof.
 
 ### Statement safety
 
 Do not change theorem types or names the human relies on without explicit user permission. Put auxiliary lemmas under the `ai` namespace when they are not in the human outline.
 
-See `notes/semiformal-proof-policy.md` (workflow: formalize and informalize).
+See `notes/semiformal-proof-policy.md` (workflow: formalize and semi-informalize). Human informal prose: `notes/informal-proof-policy.md`.
 
 ---
 
@@ -54,7 +54,7 @@ Formalize: turn semiformal content in `SemiformalProof/<Chapter>-ai.md` into Lea
 ## Must not write
 
 - `SemiformalProof/<Chapter>.md` (human)
-- `SemiformalProof/<Chapter>-ai.md` (that is `informalize` unless the user asks to fix prose first)
+- `SemiformalProof/<Chapter>-ai.md` (that is `semi-informalize` unless the user asks to fix prose first)
 
 ## Inputs (user provides)
 
