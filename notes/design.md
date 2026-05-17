@@ -13,11 +13,11 @@
 ```
 InformalProof.md (written by human)
         │  
-        │  human semiformalizes
+        │  human semi-formalizes
         ▼
 SemiformalProof.md  ----------──-----------------------──┐
         │                                                │
-        │  ai-guided-by-human semiformalizes             │
+        │  ai-guided-by-human semi-formalizes            │
         ▼                                                │
 SemiformalProof-ai.md ◄──── ai semi-informalizes  ◄──--──┤
         │                                                │
