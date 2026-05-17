@@ -241,7 +241,7 @@ theorem theorem_2_40 [PartialOrder P] :
   (∀ s : Set P, IsChain (· ≤ ·) s → s.Finite) ↔ ACC P ∧ DCC P := by
     sorry
 
-
+-- I don't think this is correct... need something to represent ⋁
 theorem theore_2_41_i [Lattice P] :
   ACC P → ∀ A : Set P, Nonempty A → ∃ (F : Finset A), Max F = Max A := by
   sorry
