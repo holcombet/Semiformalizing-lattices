@@ -1,6 +1,6 @@
 # Duality for Finite Bounded Distributive Lattices
 
-Chapter id: `5_FiniteRepresentation-cat`. Semiformal lemmas (`>` steps). Informal proof of the main theorem: `5_FiniteRepresentation-cat-informal.md`.
+Chapter id: `5_FiniteRepresentation-cat`. Semiformal lemmas (`>` steps). Informal main theorem: `InformalProofs/5_FiniteRepresentation-cat.md`. Overview: `notes/design.md`.
 
 ---
 

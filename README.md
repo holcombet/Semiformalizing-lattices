@@ -79,6 +79,8 @@ See `Lean4-skills`'s [repo](https://github.com/cameronfreer/lean4-skills/tree/ma
 
 ## Overview/Description
 
+Proof workflow (three levels, roles, directories): **`notes/design.md`**. Normative rules: `notes/semiformal-proof-policy.md`, `notes/informal-proof-policy.md`.
+
 ## Informal Proofs
 
 Proofs written in the informal "mathematical" language (i.e. natural language with mathematical symbols). Informal proofs rely heavily on intuition, "common sense", and implicit assumptions.

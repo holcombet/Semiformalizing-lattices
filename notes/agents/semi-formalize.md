@@ -2,9 +2,9 @@
 
 ## Preamble: human `.md` → `-ai.md`
 
-Turn a chosen human section into assistant semiformal in `SemiformalProof/<Chapter>-ai.md`: copy the human block **verbatim** from `<Chapter>.md` or `<Chapter>-informal.md` (cat track), then add `>` steps (`Ass`, `Have`, `Show`, `Case`, `QED`) where the proof is still prose. No Lean required in this pass.
+Turn a chosen section into assistant semiformal in `SemiformalProof/<Chapter>-ai.md`: copy the human block **verbatim** from `SemiformalProof/<Chapter>.md` and/or `InformalProofs/<Chapter>.md`, then add `>` steps where the proof is still prose. No Lean required in this pass.
 
-See `notes/semiformal-proof-policy.md` (*Semiformal section layout*, *Proof labels*). Human informal-only rules: `notes/informal-proof-policy.md`.
+See `notes/design.md`, `notes/semiformal-proof-policy.md` (*Semiformal section layout*, *Proof labels*). Informal layer: `notes/informal-proof-policy.md`.
 
 After **formalize** / **semi-informalize**, use **compare** if the user wants alignment checked.
 
@@ -24,7 +24,7 @@ Same as semi-informalize: full block (title, id, statement, `*Remark:*`, proof l
 
 ## May read
 
-- `SemiformalProof/<Chapter>.md`
+- `SemiformalProof/<Chapter>.md`, `InformalProofs/<Chapter>.md`
 - `SemiformalProof/<Chapter>-ai.md` (merge into existing sections)
 - `SemiformalProof/<Chapter>-bridge.md`
 - `notes/semiformal-proof-policy.md`, `.cursor/rules/styleguide.mdc`

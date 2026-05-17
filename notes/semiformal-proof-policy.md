@@ -1,6 +1,8 @@
 # Semiformal proof policy
 
-This repository keeps **three proof layers** per chapter. Day-to-day work on mathematics runs in a **loop between the AI and Lean layers**; the human layer sits above that loop.
+**Overview (levels and cross-level workflow):** `notes/design.md`.
+
+This repository keeps **three proof layers** per chapter (informal, semiformal, formal). Semiformal work uses human `*.md` plus assistant `*-ai.md`; see the design note for how material moves between levels. Day-to-day work on mathematics runs in a **loop between the AI and Lean layers**; the human layer sits above that loop.
 
 ## Three layers
 
@@ -289,13 +291,19 @@ Do not use bare `*Proof:*` in `-ai.md`. Place the proof label **after** the opti
 
 ## What assistants should do by default
 
-| Mode | Writes | Reads |
-|------|--------|-------|
-| **Formalize** | `FormalProofs/<Chapter>.lean`, `-ai.md` headings | `-ai.md`, human `.md` (context); `-bridge.md` if present |
-| **Informalize** | `SemiformalProof/<Chapter>-ai.md` (headings + body) | `.lean`, human `.md` (style); `-bridge.md` if present |
-| Either | — | Do not edit human `*.md` without explicit instruction |
+See `notes/design.md` for roles across levels. Summary:
 
-Say which mode you want in chat (“formalize `theorem_5_5`”, “semi-informalize everything with `sorry` in chapter 5”).
+| Role | Writes (default) |
+|------|------------------|
+| **informalize** | `InformalProofs/<Chapter>.md` (append) |
+| **semiformalize** | `SemiformalProof/<Chapter>-ai.md` |
+| **formalize** | `FormalProofs/<Chapter>.lean`, `-ai.md` headings |
+| **semi-informalize** | `SemiformalProof/<Chapter>-ai.md` |
+| **compare** | nothing (report only) |
+
+Do not edit human informal or semiformal `*.md` without explicit instruction.
+
+Say which role you want in chat (“formalize `theorem_5_5`”, “semi-informalize everything with `sorry` in chapter 5”).
 
 ### Human consent and rare prose suggestions
 

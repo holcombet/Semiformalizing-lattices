@@ -2,7 +2,7 @@
 
 ## Preamble: continue informal proofs in human `.md`
 
-Work on the **human** informal layer: `SemiformalProof/<Chapter>.md` or `SemiformalProof/<Chapter>-informal.md` when present (e.g. `5_FiniteRepresentation-cat-informal.md`). Semiformal `>` steps in `<Chapter>.md` are out of scope unless the user asks. See `notes/informal-proof-policy.md`.
+Work on the **informal** level: `InformalProofs/<Chapter>.md` (e.g. `InformalProofs/5_FiniteRepresentation-cat.md`). Semiformal `>` steps in `SemiformalProof/<Chapter>.md` are out of scope unless the user asks. See `notes/design.md`, `notes/informal-proof-policy.md`.
 
 This is not Lean → `-ai.md` (that is **semi-informalize**) and not human → `-ai.md` with `>` steps (that is **semiformalize**).
 
@@ -24,13 +24,13 @@ Continue or lightly complete informal proof text in the human chapter file the u
 
 ## May read
 
-- `SemiformalProof/<Chapter>.md`, `SemiformalProof/<Chapter>-informal.md` (and sibling `-ai.md` / `.lean` for context only)
+- `InformalProofs/<Chapter>.md` (and sibling `SemiformalProof/` / `.lean` for context only)
 - `notes/informal-proof-policy.md`, `notes/semiformal-proof-policy.md` (context)
 - `.cursor/rules/styleguide.mdc`
 
 ## May write
 
-- `SemiformalProof/<Chapter>.md` or `SemiformalProof/<Chapter>-informal.md` — **append** or fill gaps only, per policy
+- `InformalProofs/<Chapter>.md` — **append** or fill gaps only, per policy
 
 ## Must not write
 
@@ -53,5 +53,5 @@ Continue or lightly complete informal proof text in the human chapter file the u
 ```
 Role: informalize (see notes/agents/informalize.md).
 Chapter: 5_FiniteRepresentation-cat.
-Task: Continue the representation theorem in 5_FiniteRepresentation-cat-informal.md; keep it short; do not change existing lines except typos.
+Task: Continue the representation theorem in InformalProofs/5_FiniteRepresentation-cat.md; keep it short; do not change existing lines except typos.
 ```

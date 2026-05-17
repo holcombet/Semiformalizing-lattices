@@ -1,6 +1,6 @@
 # Multi-agent specifications: a short review
 
-This note complements `notes/semiformal-proof-policy.md`. That policy uses the word **“agents”** in the plural because **more than one automated actor** can touch a project over time (interactive assistant, background jobs, future bots). It does not presuppose a heavyweight multi-agent *framework*. This document surveys ways people specify multi-agent systems when you *do* want explicit structure. **Appendix A** maps those ideas to **Cursor-style harnesses** and to concrete roles in *Semiformalizing-lattices*.
+This note complements `notes/design.md` (index: levels and cross-level workflow) and `notes/semiformal-proof-policy.md`. That policy uses the word **“agents”** in the plural because **more than one automated actor** can touch a project over time (interactive assistant, background jobs, future bots). It does not presuppose a heavyweight multi-agent *framework*. This document surveys ways people specify multi-agent systems when you *do* want explicit structure. **Appendix A** maps those ideas to **Cursor-style harnesses** and to concrete roles in *Semiformalizing-lattices*.
 
 ---
 
@@ -207,7 +207,7 @@ These are **recommended roles**—natural-language job descriptions you can past
 | Role id | Mission | May write | Must not write (unless human explicitly overrides) | Reads / depends on |
 |---------|---------|-----------|------------------------------------------------------|---------------------|
 | **ledger** | Maintain the bridge table (markdown ↔ Lean), lemma names, `sorry` list; batch proposals for human prose. | `SemiformalProof/<Name>-bridge.md`, optional `<Name>-proposals.md` | `SemiformalProof/<Name>.md` | `FormalProofs/*.lean`, human `.md` (read), `semiformal-proof-policy.md` |
-| **informalize** | Continue informal proof in human `.md`. | `SemiformalProof/<Name>.md` (append only) | `-ai.md`, Lean | `notes/informal-proof-policy.md` |
+| **informalize** | Continue informal proof in human `.md`. | `InformalProofs/<Name>.md` (append only) | `-ai.md`, Lean | `notes/informal-proof-policy.md` |
 | **semiformalize** | Human `.md` → `-ai.md` with `>` steps (no Lean). | `SemiformalProof/<Name>-ai.md`, bridge notes | Human `.md`, Lean | human `.md`, policy |
 | **semi-informalize** | Lean → assistant semiformal in `-ai.md`. | `SemiformalProof/<Name>-ai.md`, bridge notes | Human `.md`, Lean (unless asked) | `.lean`, `-bridge.md`, human `.md` (style) |
 | **formalize** | `-ai.md` → Lean statements and proofs. | `FormalProofs/*.lean`, bridge status | Human `.md`, `-ai.md` (unless asked to fix prose first) | `-ai.md`, `-bridge.md`, `lake`, lean4 rules |
@@ -219,7 +219,7 @@ These are **recommended roles**—natural-language job descriptions you can past
 
 The **human** row is first-class: the harness should assume **only** the human (or explicit human delegation) performs the last step on human-facing semiformal files, per `semiformal-proof-policy.md`.
 
-**Illustration tied to chapter 5:** `theorem_5_19_i` might cycle **formalize** (sketch in `5_FiniteRepresentation-ai.md` → Lean + `lake build`) and **semi-informalize** (refresh `-ai.md` after the proof changes), with **ledger** maintaining `5_FiniteRepresentation-bridge.md`. The **cat** track may use **informalize** on `5_FiniteRepresentation-cat.md` before **semiformalize**. A **reviewer-readonly** pass batches human-layer suggestions. None of that requires editing `SemiformalProof/5_FiniteRepresentation.md` without your consent.
+**Illustration tied to chapter 5:** `theorem_5_19_i` might cycle **formalize** (sketch in `5_FiniteRepresentation-ai.md` → Lean + `lake build`) and **semi-informalize** (refresh `-ai.md` after the proof changes), with **ledger** maintaining `5_FiniteRepresentation-bridge.md`. The **cat** track may use **informalize** on `InformalProofs/5_FiniteRepresentation-cat.md` before **semiformalize**. A **reviewer-readonly** pass batches human-layer suggestions. None of that requires editing `SemiformalProof/5_FiniteRepresentation.md` without your consent.
 
 ### A.4 Software-style view: behaviour, interconnection, dependencies
 

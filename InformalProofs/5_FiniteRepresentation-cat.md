@@ -1,6 +1,6 @@
 # Duality for finite bounded distributive lattices (informal)
 
-Chapter id: `5_FiniteRepresentation-cat`. Informal proof sketches (prose); lemmas with `>` steps live in `5_FiniteRepresentation-cat.md`. Policy: `notes/informal-proof-policy.md`. Role: `notes/agents/informalize.md`.
+Chapter id: `5_FiniteRepresentation-cat`. Informal proof sketches (prose); lemmas with `>` steps live in `SemiformalProof/5_FiniteRepresentation-cat.md`. Overview: `notes/design.md`. Policy: `notes/informal-proof-policy.md`. Role: `notes/agents/informalize.md`.
 
 Sibling files (this track):
 

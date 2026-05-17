@@ -1,6 +1,8 @@
 # Informal proof policy
 
-Human informal proofs may live in `SemiformalProof/<Chapter>.md` or, on the cat track, `SemiformalProof/<Chapter>-informal.md` (prose only; semiformal `>` steps stay in `<Chapter>.md`). This layer is for thinking on the page—not the `-ai.md` / Lean loop.
+**Overview:** `notes/design.md` (three levels and cross-level workflow).
+
+Human informal proofs live in **`InformalProofs/<Chapter>.md`** (prose only). Semiformal `>` steps stay in `SemiformalProof/<Chapter>.md`. This layer is for thinking on the page—not the `-ai.md` / Lean loop.
 
 ## What counts as informal here
 
