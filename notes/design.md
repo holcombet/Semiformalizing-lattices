@@ -15,7 +15,7 @@ InformalProof.md (written by human)
         │  
         │  human semi-formalizes
         ▼
-SemiformalProof.md  ----------──-----------------------──┐
+SemiformalProof.md  ◄────----------──------------------──┐
         │                                                │
         │  ai-guided-by-human semi-formalizes            │
         ▼                                                │
