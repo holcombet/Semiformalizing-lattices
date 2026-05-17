@@ -1,12 +1,14 @@
-# Chapter 5 — bridge (transitional)
+# Chapter 5 — bridge (transitional, category-theoretic track)
 
-Optional index while `-ai.md` gains **dual-name headings** (human bold line + Lean bold line when names differ). Prefer updating headings in `5_FiniteRepresentation-ai.md`; this file may be retired when every row is covered there. Policy: `notes/semiformal-proof-policy.md` (*Retiring `-bridge.md`*).
+Chapter id: `5_FiniteRepresentation-cat`. Optional index while `-ai.md` gains **dual-name headings** (human bold line + Lean bold line when names differ). Prefer updating headings in `5_FiniteRepresentation-cat-ai.md`; this file may be retired when every row is covered there. Policy: `notes/semiformal-proof-policy.md` (*Retiring `-bridge.md`*).
 
-Sibling files:
+Sibling files (this track):
 
-- Human semiformal outline: `SemiformalProof/5_FiniteRepresentation.md` (do not edit here; record pointers only).
-- Assistant semiformal layer: `SemiformalProof/5_FiniteRepresentation-ai.md` (permanent; human-reviewed).
-- Formal Lean: `FormalProofs/5_FiniteRepresentation.lean`.
+- Human semiformal outline: `SemiformalProof/5_FiniteRepresentation-cat.md` (do not edit here; record pointers only).
+- Assistant semiformal layer: `SemiformalProof/5_FiniteRepresentation-cat-ai.md` (permanent; human-reviewed).
+- Formal Lean: `FormalProofs/5_FiniteRepresentationCat.lean` (namespace `FiniteRepresentationCat`).
+
+Book-aligned track: `5_FiniteRepresentation.md`, `5_FiniteRepresentation-ai.md`, `5_FiniteRepresentation-bridge.md`, `FormalProofs/5_FiniteRepresentation.lean`.
 - Policy (file tiers, consent, naming): `notes/semiformal-proof-policy.md`.
 
 **Bridge:** one table per chapter in `*-bridge.md` with columns for human markdown and Lean. Either column may be empty (—): that means no counterpart yet, not an error. Sort rows in a stable order (e.g. textbook number, then outline order within a theorem block).
@@ -17,7 +19,7 @@ Formal-only scaffolding from assisted sessions lives under the `ai` namespace so
 
 ## Bridge (chapter 5)
 
-Human column: label in the human `.md` if it exists. Summary: one informal sentence. Lean: declaration name(s) exactly as in `FormalProofs/5_FiniteRepresentation.lean` (several names comma-separated if needed). Notes: namespace `ai.*`, extra lemmas in a stack, mismatches, or pointer to a section in `-ai.md`. Put summary before lean so previews wrap the prose column.
+Human column: label in the human `.md` if it exists. Summary: one informal sentence. Lean: declaration name(s) exactly as in `FormalProofs/5_FiniteRepresentationCat.lean` (several names comma-separated if needed; qualified as `FiniteRepresentationCat.*` when needed). Notes: namespace `FiniteRepresentationCat.ai.*`, extra lemmas in a stack, mismatches, or pointer to a section in `-ai.md`. Put summary before lean so previews wrap the prose column.
 
 | Human `.md` | Summary | Lean | Status | Notes |
 |-------------|---------|------|--------|-------|

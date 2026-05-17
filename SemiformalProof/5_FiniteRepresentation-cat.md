@@ -1,4 +1,8 @@
-# Chapter 5
+# Chapter 5 — category-theoretic track
+
+Chapter id: `5_FiniteRepresentation-cat`. Forked from the book-aligned outline (`5_FiniteRepresentation.md` and siblings). Develop finite representation here in a category-theoretic style.
+
+---
 
 **Lemma (atoms are join-irreducible)**
 **lemma_5_3_i** 

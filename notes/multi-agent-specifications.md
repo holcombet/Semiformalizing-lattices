@@ -209,6 +209,7 @@ These are **recommended roles**—natural-language job descriptions you can past
 | **ledger** | Maintain the bridge table (markdown ↔ Lean), lemma names, `sorry` list; batch proposals for human prose. | `SemiformalProof/<Name>-bridge.md`, optional `<Name>-proposals.md` | `SemiformalProof/<Name>.md` | `FormalProofs/*.lean`, human `.md` (read), `semiformal-proof-policy.md` |
 | **informalize** | Lean → assistant semiformal in `-ai.md`. | `SemiformalProof/<Name>-ai.md`, bridge notes | Human `.md`, Lean (unless asked) | `.lean`, `-bridge.md`, human `.md` (style) |
 | **formalize** | `-ai.md` → Lean statements and proofs. | `FormalProofs/*.lean`, bridge status | Human `.md`, `-ai.md` (unless asked to fix prose first) | `-ai.md`, `-bridge.md`, `lake`, lean4 rules |
+| **compare** | Report alignment (S / St / Sc / …) between semiformal and Lean; read-only. | Optional `-ai.md` remark / alignment notes if asked | Human `.md`, `.lean`, proof bodies | All semiformal + Lean for scope |
 | **formal-worker** | Alias for heavy **formalize** work: prove, refactor, close sorries. | Same as **formalize** | Human `SemiformalProof/<Name>.md` | Same as **formalize** |
 | **reviewer-readonly** | Summarise diffs, find sorries, check policy compliance; suggest **one** batched prose change list. | Nothing (or comments in PR only) | All tracked files | Git diff, `-bridge.md`, policy |
 | **explore** | Map codebase, find relevant lemmas, readonly search. | Nothing | Writes | Same as harness read access |

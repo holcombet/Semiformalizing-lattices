@@ -28,6 +28,8 @@ Exception: short machine-oriented glossaries (e.g. rigid field–value patterns)
 - **Italic used for stress** counts toward the same “one emphasised span per sentence” cap as bold (pick one or neither per sentence).
 - **Contrast / takeaway** (guidance, not a second rule): use bold only when it marks a contrast the reader could miss, or a single takeaway line—not to dress up every noun or every bullet label. This does not relax the per-sentence cap above.
 - **Policy tiering** for semiformal chapters lives in `notes/semiformal-proof-policy.md` (human `*.md`, assistant `*-ai.md`, bridge `*-bridge.md`); that file is orthogonal to this styleguide.
+- **Semiformal proof labels** in `SemiformalProof/**`: human `*.md` uses `*Proof (human):*`; `-ai.md` uses `*Proof (human):*`, `*Proof (semiformalized from lean):*`, or `*Proof (human–ai–lean collaboration):*` only (see policy *Proof labels (provenance)*).
+- **Semiformal sections** (policy *Semiformal section layout*): human uses title + id bold lines, optional `*Remark:*`, `*Proof (human):*`, `>` steps with `Ass` / `Have` / `Show` / `Case`. `-ai.md` copies human verbatim; extra `` **`lean_name`** `` line only when Lean ≠ id line.
 
 ## What we keep apart on purpose
 
