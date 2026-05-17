@@ -3,14 +3,12 @@
 ## Three levels
 
 - The **informal** level has informal proos, roughly textbook style. [Example](../InformalProofs/5_FiniteRepresentation-cat.md).
-- The **semiformal** has two files
+- The **semiformal** level has two files
   - `.md` written by human 
   - `-ai.md` maintained by human with ai
 - The **formal** level has a `.lean`-file maintained by human with ai.
 
 ## Workflow between levels
-
-Work does not stay inside one folder. Typical flow:
 
 ```
 InformalProof.md (written by human)
@@ -21,7 +19,7 @@ SemiformalProof.md  ----------──-----------------------──┐
         │                                                │
         │  ai-guided-by-human semiformalizes             │
         ▼                                                │
-SemiformalProof-ai.md ◄──── ai semideformalizes  ◄──---──┤
+SemiformalProof-ai.md ◄──── ai semi-informalizes  ◄──--──┤
         │                                                │
         │  ai-guided-by-human formalizes                 │
         ▼                                                │
@@ -31,7 +29,7 @@ FormalProof.lean ---------------------------────────────
 There are two agent-cards specifying the "ai-agent-by-human" transformations. The agent-card
 
 - [`formalize`](./agents/formalize.md): rules for an ai-agent helping human to translate a semiformal proof in `-ai.md` to a formal proof in `.lean`.
-- [`semi-informalize](./agents/semi-informalize.md): rules for an ai-agent helping human to translate a a formal proof in `.lean` to a semiformal proof in `-ai.md`.
+- [`semi-informalize`](./agents/semi-informalize.md): rules for an ai-agent helping human to translate a a formal proof in `.lean` to a semiformal proof in `-ai.md`.
 
 These will be the important ones. Two other ones are much more experimental:
 - [`semi-formalize`](./agents/semi-formalize.md) might help with translating informal proofs to semiformal ones.
