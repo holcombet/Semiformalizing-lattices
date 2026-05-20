@@ -27,20 +27,24 @@ theorem lemma_1_17 [PartialOrder P] [PartialOrder Q] [Finite P] [Finite Q] (x y 
 lemma lemma_1_30 [PartialOrder α] (x y : α) :
   (x ≤ y) ↔
     (({z : α | z ≤ x} ⊆ {z : α | z ≤ y}) ↔
-      (∀ Q : Order.Ideal α, y ∈ Q → x ∈ Q)) := by
+      (∀ Q : LowerSet α, y ∈ Q → x ∈ Q)) := by
   sorry
 
 
 -- TFAE version makes the proof much more similar to the informal proof.
 -- TFAE = "the following (propositions) are equivalent"
-lemma lemma_1_30' [PartialOrder P] (x y : P) :
-  List.TFAE [x ≤ y, ({z : P | z ≤ x} ⊆ {z : P | z ≤ y}), (∀ Q : Order.Ideal P, y ∈ Q → x ∈ Q)] := by
+lemma lemma_1_30' [PartialOrder P] (x y : P) : List.TFAE [
+  x ≤ y, ({z : P | z ≤ x} ⊆ {z : P | z ≤ y}),
+  (∀ Q : LowerSet P, y ∈ Q → x ∈ Q)] := by
   tfae_have 1 → 2 := by sorry
   tfae_have 2 → 3 := by sorry
   tfae_have 3 → 1 := by sorry
   tfae_finish
 
 
+
+
+-- TODO: Decide whether to discard any exercise statements
 
 -- with typeclasses declared in the statement
 theorem exercise_1_7 [PartialOrder α] {a₁ a₂ b₁ b₂ : α} :
