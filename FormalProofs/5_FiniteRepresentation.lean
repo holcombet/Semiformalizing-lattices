@@ -221,7 +221,66 @@ theorem theorem_5_19_i [PartialOrder P] [Finite P] [PartialOrder Q]
 Mathematically, φ⁻¹(a) is preimage of a subset, not application of an inverse function to a.
 In Lean, that distinction is exactly φ ⁻¹' (a : Set P).
 -/
+section theorem_5_19_ii_aux
+
+variable [PartialOrder P] [PartialOrder Q]
+
+/-- Preimage along a monotone map `φ : Q → P`, packaged as a lower set in `Q`. -/
+noncomputable def lowerSetPreimage (φ : Q →o P) (a : LowerSet P) : LowerSet Q :=
+  ⟨(φ : Q → P) ⁻¹' (a : Set P), IsLowerSet.preimage a.2 φ.monotone⟩
+
+@[simp] lemma lowerSetPreimage_coe (φ : Q →o P) (a : LowerSet P) :
+    (lowerSetPreimage φ a : Set Q) = φ ⁻¹' (a : Set P) := rfl
+
+/-- Membership in the preimage lower set is preimage membership on points. -/
+lemma mem_lowerSetPreimage (φ : Q →o P) (a : LowerSet P) (y : Q) :
+    y ∈ lowerSetPreimage φ a ↔ φ y ∈ a := by
+  -- TODO: complete this proof
+  sorry
+
+/-- Preimage preserves finite meets and joins on `LowerSet` (check dual-inclusion orientation). -/
+lemma lowerSetPreimage_inf (φ : Q →o P) (a b : LowerSet P) :
+    lowerSetPreimage φ (a ⊓ b) = lowerSetPreimage φ a ⊓ lowerSetPreimage φ b := by
+  -- TODO: complete this proof
+  sorry
+
+lemma lowerSetPreimage_sup (φ : Q →o P) (a b : LowerSet P) :
+    lowerSetPreimage φ (a ⊔ b) = lowerSetPreimage φ a ⊔ lowerSetPreimage φ b := by
+  -- TODO: complete this proof
+  sorry
+
+lemma lowerSetPreimage_bot (φ : Q →o P) : lowerSetPreimage φ ⊥ = ⊥ := by
+  -- TODO: complete this proof
+  sorry
+
+lemma lowerSetPreimage_top (φ : Q →o P) : lowerSetPreimage φ ⊤ = ⊤ := by
+  -- TODO: complete this proof
+  sorry
+
+/-- The lattice homomorphism induced by monotone `φ : Q → P` via preimage. -/
+noncomputable def lowerSetPreimageHom (φ : Q →o P) : BoundedLatticeHom (LowerSet P) (LowerSet Q) :=
+  { toFun := lowerSetPreimage φ
+    map_inf' := lowerSetPreimage_inf φ
+    map_sup' := lowerSetPreimage_sup φ
+    map_bot' := lowerSetPreimage_bot φ
+    map_top' := lowerSetPreimage_top φ }
+
+@[simp] lemma lowerSetPreimageHom_apply (φ : Q →o P) (a : LowerSet P) :
+    (lowerSetPreimageHom φ a : Set Q) = φ ⁻¹' (a : Set P) :=
+  lowerSetPreimage_coe φ a
+
+end theorem_5_19_ii_aux
+
+/--
+If `φ : Q → P` is order-preserving, then preimage along `φ` is a bounded lattice homomorphism
+`LowerSet P → LowerSet Q` with `(f a : Set Q) = φ⁻¹' (a : Set P)`.
+
+Note: `φ_inv` is not used in the conclusion; confirm whether it should be dropped or tied to an adjunction.
+-/
 theorem theorem_5_19_ii [PartialOrder P] [PartialOrder Q] (φ : Q →o P) (φ_inv : P →o Q) :
     ∃ fφ : BoundedLatticeHom (LowerSet P) (LowerSet Q),
-    ∀ a : LowerSet P, (fφ a : Set Q)= φ⁻¹' (a : Set P) := by
-      sorry
+    ∀ a : LowerSet P, (fφ a : Set Q) = φ⁻¹' (a : Set P) := by
+  -- Strategy: take `fφ := lowerSetPreimageHom φ`; the set equality is `lowerSetPreimage_coe`.
+  refine ⟨lowerSetPreimageHom φ, ?_⟩
+  intro a
+  simp [lowerSetPreimageHom_apply]
