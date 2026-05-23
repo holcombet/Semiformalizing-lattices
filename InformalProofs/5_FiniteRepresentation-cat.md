@@ -10,11 +10,11 @@ Sibling files (this track):
 
 ---
 
-Let $DL$ be the category of bounded distributive lattices. Let $Pos$ be the category of finite posets.
+Let $DL$ be the category of bounded distributive lattices. Let $Pos$ be the category of posets.
 
 Let $P:Pos\to DL$ be defined by $PX=Pos(X,2)$ on objects and by precomposition on arrows.
 
-**Prop (P):** $P$ is a functor $Pos\to DL$, which, moreover, restricts to $Pos\to DL$.
+**Prop (P):** $P$ is a functor $Pos\to DL$, which, moreover, restricts to $fPos\to fDL$.
 
 Let $S:DL\to Pos$ be defined by $SX=DL(X,2)$ on objects and by precomposition on arrows.
 
