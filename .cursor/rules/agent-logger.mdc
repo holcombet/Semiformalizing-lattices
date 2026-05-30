@@ -1,0 +1,132 @@
+---
+description: Session logging for Lean 4 auto-formalization work. Captures proof process, failed attempt summaries, and final outcomes. Activated by /log command.
+globs: ["**/*"]
+alwaysApply: false
+---
+
+# Agent Session Logger — Lean Formalization
+
+Log the **process and final outcome** of each formalization turn. Do not log intermediate attempts in detail — failed attempts get one line each. The log should read like a proof diary, not a debugging transcript.
+
+---
+
+## Log File Location
+
+```
+.cursor/logs/YYYY-MM-DD_session-N.md
+```
+
+- Use today's date. Increment `N` if a log for that date already exists.
+- Append if the same conversation continues. Create the directory silently if needed.
+
+---
+
+## Log Structure
+
+```markdown
+# Lean Session — YYYY-MM-DD (Session N)
+
+**Goal**: <what theorem, lemma, or formalization task was the target>
+**Source**: <informal statement or paper reference, if any>
+**Outcome**: <filled at session end: Proved / Partial / Stuck / Abandoned>
+
+---
+
+## Proof Log
+
+<turn entries go here, in order>
+
+---
+
+## Tactic & Tool Patterns
+
+_Filled at session end._
+
+| Pattern | Used | Worked | Notes |
+|---------|------|--------|-------|
+|         |      |        |       |
+
+---
+
+## Session Summary
+
+_Filled at session end. What was proved, what approach worked, what remains open._
+```
+
+---
+
+## Turn Entry Format
+
+Each turn gets one entry. Structure:
+
+```
+### <time stamp> <short name for the theorem or subtask being worked>
+
+**Attempts**: <N total>
+**Failed** (<N>):
+- `<tactic or approach>` — <one phrase: why it failed, e.g. "type mismatch on hypothesis h2", "simp couldn't close the goal", "wrong induction variable">
+- `<tactic or approach>` — <why>
+
+**What worked**: <the approach or tactic sequence that succeeded, in plain English — not the full Lean code>
+**Why it worked**: <one sentence on the key insight, e.g. "needed to rewrite with commutativity before omega could close", "induction on n instead of m avoided the stuck case">
+
+**Final state**: Proved ✓ | Partial — <what remains> | Stuck — <where it broke down>
+```
+
+**Rules for this entry:**
+- Failed attempts: one line each, tactic name + failure reason. No elaboration.
+- If an approach was tried in multiple variations, group them: `omega (3 variants)` — `couldn't handle the non-linear term`
+- The "What worked" field uses plain English, not Lean syntax. Save the actual proof for the source file.
+- If nothing worked: omit "What worked" / "Why it worked", set Final state to `Stuck` and note the blocking goal or error.
+- If the turn was pure conversation (no proof attempt): use a `[CONVO]` entry instead (see below).
+
+---
+
+## [CONVO] Entry
+
+For turns with no proof attempts — scoping, clarification, strategy discussion:
+
+```
+### [HH:MM] CONVO
+<2–3 sentences: what was discussed and any decision or direction that came out of it>
+```
+
+---
+
+## [TOOL] Entry
+
+Only log tools when their result **changed the approach** — not routine file reads.
+
+```
+### [HH:MM] TOOL
+Tool: <name>
+Used for: <one phrase>
+Impact: <how it changed the plan — "switched from ring to field_simp after search confirmed approach", "confirmed lemma existed in Mathlib">
+```
+
+Skip this entry if the tool result confirmed what was already planned.
+
+---
+
+## Tactic & Tool Patterns Table (end of session)
+
+Review the turn log and fill this in. Track which tactics and tools were tried, and how often they worked. This is the artifact for improving future sessions.
+
+| Pattern | Used | Worked | Notes |
+|---------|------|--------|-------|
+| `omega` | 4 | 2 | Works for linear arithmetic; failed on non-linear goals |
+| `simp [lemma]` | 6 | 5 | Very reliable with explicit lemma hints |
+| `ring` | 2 | 2 | Always succeeded when goal was a ring identity |
+| `decide` | 1 | 0 | Timeout on the finite check |
+| Mathlib search | 3 | 2 | Found relevant lemma 2/3 times |
+
+End with 1–2 plain-English takeaways about what patterns to reach for (or avoid) next session.
+
+---
+
+## Session Summary (end of session)
+
+2–4 sentences. Cover:
+- What was proved and what wasn't
+- The key insight or approach that unlocked progress
+- What to try next if anything is stuck or open

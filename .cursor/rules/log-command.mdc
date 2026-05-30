@@ -1,0 +1,41 @@
+---
+description: Activates session logging for the current conversation. Trigger with /log or /log stop.
+globs: ["**/*"]
+alwaysApply: false
+---
+
+# /log Command
+
+This rule defines the `/log` slash command. It controls session logging for the current conversation.
+
+---
+
+## Commands
+
+### `/log`
+Start logging this conversation using the Agent Session Logger rule.
+
+When triggered:
+1. Confirm logging is active with a single line: `Logging active — session file: .cursor/logs/YYYY-MM-DD_session-N.md`
+2. Create the log file immediately with the session header and the user's first logged message
+3. Apply all logging behavior defined in `agent-logger.mdc` for every subsequent turn in this conversation
+
+### `/log stop`
+Stop logging and close out the session.
+
+When triggered:
+1. Write the Tool Effectiveness Summary, Session Summary, Outcome, and Next Steps to the log file
+2. Confirm with a single line: `Log closed — YYYY-MM-DD_session-N.md`
+3. Stop writing to the log for any further turns in this conversation
+
+### `/log status`
+Report whether logging is currently active and, if so, the current log file path.
+
+---
+
+## Behavior Rules
+
+- Do not log anything until `/log` is explicitly typed by the user
+- If the user types `/log` mid-conversation, backfill a `[CONVO]` summary for any turns that happened before logging was started, marked with `[backfilled]`
+- If `/log stop` is never called, close out the session automatically when the conversation ends
+- Only one log file is active per conversation at a time
