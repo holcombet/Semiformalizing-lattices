@@ -81,6 +81,14 @@ See `Lean4-skills`'s [repo](https://github.com/cameronfreer/lean4-skills/tree/ma
 
 Proof workflow (three levels, roles, directories): **`notes/design.md`**. Normative rules: `notes/semiformal-proof-policy.md`, `notes/informal-proof-policy.md`.
 
+## Agent Logging
+
+Interactions with agent and agent actions can be logged automatically (see [agent-logger.mdc](/.cursor/rules/agent-logger.mdc) and [log-command.mdc](/.cursor/rules/log-command.mdc) for details).
+
+Start logging using the `\log` command in your agent conversation. Stop logging by using `\log stop` in agent conversation. Logs document each prompt and agent turn. Each session is its own markdown document.
+
+Logs are saved under [.cursor/logs/](.cursor/logs/).
+
 ## Informal Proofs
 
 Proofs written in the informal "mathematical" language (i.e. natural language with mathematical symbols). Informal proofs rely heavily on intuition, "common sense", and implicit assumptions.
