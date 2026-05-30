@@ -200,6 +200,7 @@ theorem lemma_2_27_ia [CompleteLattice P] [CompleteLattice Q] (φ : P →o Q) (S
     lemma_2_27_of_isLUB (φ := φ) (S := S) (p := sSup S) (q := sSup (φ '' S)) (isLUB_sSup S)
       (isLUB_sSup (φ '' S))
 
+
 -- TODO: check this
 lemma lemma_2_30 [PartialOrder P] (hInf : ∀ S : Set P, S.Nonempty → ∃ x, IsGLB S x) :
   ∀ S : Set P, BddAbove S → ∃ x, IsLUB S x := by
@@ -226,6 +227,15 @@ theorem theorem_2_31 [PartialOrder P] :
   tfae_have 3 → 1 := by sorry
   tfae_finish
 
+namespace InterStructure
+
+def IsInterStructure {X : Type*} (L : Set (Set X)) : Prop :=
+  ∀ T : Set (Set X), T ⊆ L → ⋂₀ T ∈ L
+
+def IsToppedInterStructure {X : Type*} (L : Set (Set X)) : Prop :=
+  Set.univ ∈ L ∧ ∀ T ⊆ L, ⋂₀ T ∈ L
+
+end InterStructure
 
 -- definitions of ACC and DCC
 abbrev ACC (α : Type*) [LT α] : Prop := WellFoundedGT α
