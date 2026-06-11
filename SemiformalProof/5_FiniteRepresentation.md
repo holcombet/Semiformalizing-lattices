@@ -127,6 +127,8 @@ There are still some bits missing to prove the theorem, but the idea is clear no
 
 The bijection between the arrows follows from the isomorphism $\hom(fa,b)\cong\hom(a,gb)$.
 
+## Appendix
+
 We can turn this into a wider project of formalizing duality theorems.
 
 - Autoformalizing Stone duality.
