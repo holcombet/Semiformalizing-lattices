@@ -9,6 +9,8 @@ import Mathlib.Order.GaloisConnection.Defs
 import Mathlib.Order.Directed
 import FormalProofs.«2_Lattices»
 
+open InterStructure
+
 variable {P Q : Type*}
 
 
@@ -131,3 +133,51 @@ theorem theorem_7_3_a {X : Type*} (C : ClosureOperator (Set X)) :
   -- (ii) complete lattice on `C.Closeds` via `completeLatticeOfInf` and the GLB property of `sInf`;
   -- (iii) meet/join on carriers via `sInf_image'` and `ClosureOperator.closure_iSup_closure`.
   sorry
+
+
+
+namespace AlgInterStructure
+
+variable {X : Type*}
+
+/-- `L` is closed under unions of directed subfamilies (directed under `⊆`). -/
+def ClosedUnderDirectedUnion (L : Set (Set X)) : Prop :=
+  ∀ S : Set (Set X), S ⊆ L → DirectedOn (· ⊆ ·) S → Set.sUnion S ∈ L
+
+/-- A non-empty family `L` of subsets of `X` is an algebraic `⋂`-structure if it is closed under
+nonempty arbitrary intersections and closed under directed unions (under inclusion). -/
+def IsAlgInterStructure (L : Set (Set X)) : Prop :=
+  L.Nonempty ∧ ClosedUnderNonemptyInter L ∧ ClosedUnderDirectedUnion L
+
+lemma isAlgInterStructure_iff (L : Set (Set X)) :
+    IsAlgInterStructure L ↔
+      L.Nonempty ∧ ClosedUnderNonemptyInter L ∧ ClosedUnderDirectedUnion L := by
+  constructor
+  · intro h
+    exact ⟨h.1, h.2.1, h.2.2⟩
+  · intro h
+    exact ⟨h.1, ⟨h.2.1, h.2.2⟩⟩
+
+
+def IsToppedAlgInterStructure (L : Set (Set X)) : Prop :=
+  Set.univ ∈ L ∧ IsAlgInterStructure L
+
+
+lemma isToppedAlgInterStructure_iff (L : Set (Set X)) :
+    IsToppedAlgInterStructure L ↔
+      L.Nonempty ∧ ClosedUnderNonemptyInter L ∧ ClosedUnderDirectedUnion L ∧ Set.univ ∈ L := by
+  constructor
+  · intro h
+    exact ⟨h.2.1, h.2.2.1, h.2.2.2, h.1⟩
+  · intro h
+    exact ⟨h.2.2.2, ⟨h.1, ⟨h.2.1, h.2.2.1⟩⟩⟩
+
+
+end AlgInterStructure
+
+
+namespace AlgebraicClosureOperator
+
+
+
+end AlgebraicClosureOperator
