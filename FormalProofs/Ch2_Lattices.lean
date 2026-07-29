@@ -14,9 +14,8 @@ import Mathlib.Order.Preorder.Chain
 import Mathlib.Order.Sublattice
 import Mathlib.Data.Finset.Lattice.Fold
 import Mathlib.Data.Set.Finite.Basic
-import Mathlib.Order.Closure
 
-variable {α β L K P Q ι : Type*}
+variable {α β L K P Q : Type*}
 
 
 -- manually completed by Tally and Alex
@@ -187,154 +186,53 @@ lemma lemma_2_24 [Lattice P] (F : Set P) (hF : F.Finite) (hne : F.Nonempty) :
 
 /-- Same inequality as the textbook, assuming only partial orders: `p` and `q` are *some* least
 upper bounds of `S` and `φ '' S`. No global `sSup` operator is needed. -/
-lemma lemma_2_27_i_join [PartialOrder P] [PartialOrder Q] (φ : P →o Q) (S : Set P) (p : P)
+theorem lemma_2_27_of_isLUB [PartialOrder P] [PartialOrder Q] (φ : P →o Q) (S : Set P) (p : P)
     (q : Q) (hp : IsLUB S p) (hq : IsLUB (φ '' S) q) : q ≤ φ p := by
   apply hq.2
   intro b hb
   rcases hb with ⟨a, ha, rfl⟩
   exact φ.monotone (hp.1 ha)
 
-lemma lemma_2_27_i_meet [PartialOrder P] [PartialOrder Q] (φ : P →o Q) (S : Set P) (p : P)
-    (q : Q) (hp : IsGLB S p) (hq : IsGLB (φ '' S) q) : φ p ≤ q := by
-  apply hq.2
-  intro b hb
-  rcases hb with ⟨a, ha, rfl⟩
-  exact φ.monotone (hp.1 ha)
-
-lemma lemma_2_27_ii_join [PartialOrder P] [PartialOrder Q] (φ : P ≃o Q) (S : Set P) (p : P)
-  (q : Q) (hLUB : IsLUB S p) (hφ_LUB : IsLUB (φ '' S) q) : φ p = q := by
-  sorry
-
-lemma lemma_2_27_ii_meet [PartialOrder P] [PartialOrder Q] (φ : P ≃o Q) (S : Set P) (p : P)
-  (q : Q) (hLUB : IsGLB S p) (hφ_LUB : IsGLB (φ '' S) q) : φ p = q := by
-  sorry
-
-/--
-Lemma 2.28 : Let P be a poset and Q ⊆ P with the induced order. Let S ⊆ Q. If ⋁_P S exists and
-belongs to Q, the ⋁_Q S exists and ⋁_Q S = ⋁_P S.
--/
-lemma lemma_2_28_join [PartialOrder P] (Q : Set P) (S : Set Q) (p : P) (q : Q)
-  (hP : IsLUB (Subtype.val '' S) p) (hpQ : p ∈ Q) : -- IsLUB (Subtype.val '' S) p  = ⋁_P S (ambient)
-  IsLUB S ⟨p, hpQ⟩ ∧ (IsLUB S q = IsLUB (Subtype.val '' S) p) := by -- ⟨p, hpQ⟩ ∈ Q
-  sorry
-
-lemma lemma_2_28_meet [PartialOrder P] (Q : Set P) (S : Set Q) (p : P) (q : Q)
-  (hP : IsGLB (Subtype.val '' S) p) (hpQ : p ∈ Q) :
-  IsGLB S ⟨p, hpQ⟩ ∧ (IsGLB S q = IsGLB (Subtype.val '' S) p) := by
-  sorry
+theorem lemma_2_27_ia [CompleteLattice P] [CompleteLattice Q] (φ : P →o Q) (S : Set P) :
+    φ (sSup S) ≥ sSup (φ '' S) := by
+  rw [ge_iff_le]
+  exact
+    lemma_2_27_of_isLUB (φ := φ) (S := S) (p := sSup S) (q := sSup (φ '' S)) (isLUB_sSup S)
+      (isLUB_sSup (φ '' S))
 
 
--- TODO: delete this
-lemma isLUB_iUnion_range {X : Type*} (A : ι → Set X) :
-  ∃ x, IsLUB (Set.range A) x ∧ x = ⋃ i, A i := by
-  refine ⟨⋃ i, A i, ?_, rfl⟩
-  rw [← Set.iSup_eq_iUnion]
-  exact isLUB_iSup
-
-
--- TODO : lean4:golf
-lemma corollary_2_29_i {X : Type*} (L : Set (Set X)) (A : ι → Set X)
-    (hA : ∀ i, A i ∈ L) (hAL : ⋃ i, A i ∈ L) :
-    IsLUB (Set.range fun i => ⟨A i, hA i⟩) (⟨⋃ i, A i, hAL⟩ : L) := by
-  -- ambient join in (Set X, ⊆), then transfer to L via Subtype.val
-  have h_image : Set.range A = (Subtype.val : L → Set X) '' Set.range (fun i => ⟨A i, hA i⟩) := by
-    ext s; simp [Set.mem_range, Set.mem_image]
-  have h_amb : IsLUB (Set.range A) (⋃ i, A i) := by
-    rw [← Set.iSup_eq_iUnion]
-    exact isLUB_iSup
-  rw [h_image] at h_amb
-  exact IsLUB.of_image (by simp) h_amb
-
-lemma corollary_2_29_ii {X : Type*} (L : Set (Set X)) (A : ι → Set X)
-    (hA : ∀ i, A i ∈ L) (hAL : ⋂ i, A i ∈ L) :
-    IsGLB (Set.range fun i => ⟨A i, hA i⟩) (⟨⋂ i, A i, hAL⟩ : L) := by
-  have h_image : Set.range A = (Subtype.val : L → Set X) '' Set.range (fun i => ⟨A i, hA i⟩) := by
-    ext s; simp [Set.mem_range, Set.mem_image]
-  have h_amb : IsGLB (Set.range A) (⋂ i, A i) := by
-    rw [← Set.iInf_eq_iInter]
-    exact isGLB_iInf
-  rw [h_image] at h_amb
-  exact IsGLB.of_image (by simp) h_amb
-
-
-
+-- lemma lemma_2_28 [PartialOrder P] (Q : Set P) (S : Set Q) :
 
 -- TODO: check this
-lemma lemma_2_30 [PartialOrder P] (hInf : ∀ S : Set P, S.Nonempty → ∃ x : P, IsGLB S x) :
+lemma lemma_2_30 [PartialOrder P] (hInf : ∀ S : Set P, S.Nonempty → ∃ x, IsGLB S x) :
   ∀ S : Set P, BddAbove S → ∃ x, IsLUB S x := by
     intro S hS
     have hne : (upperBounds S).Nonempty := by simpa [BddAbove, upperBounds] using hS
     obtain ⟨x, hx⟩ := hInf (upperBounds S) hne
     exact ⟨x, (isGLB_upperBounds (s := S)).1 hx⟩
 
-/--
-For all nonempty subsets S of a poset P, if ⋁ S exists in P for every subset S of P which has an
-upper bound in P, then ⋁ S = ⋀ Sᵘ, where Sᵘ is the set of upper bounds of S.
--/
-lemma lemma_2_30_equality [PartialOrder P] (S : Set P) (x : P) (hLUB : IsLUB S x) :
-    ∃ y, IsGLB (upperBounds S) y ∧ x = y := by
-  exact ⟨x, (isGLB_upperBounds (s := S)).2 hLUB, rfl⟩
 
-
-
-theorem theorem_2_31 [PartialOrder P] [Nonempty P] : List.TFAE [
-    Nonempty
-      { cl : CompleteLattice P //
-        cl.toCompleteSemilatticeSup.toPartialOrder = (inferInstance : PartialOrder P) },
-    ∀ S : Set P, ∃ x, IsGLB S x,
-    (∃ x : P, IsTop x) ∧ ∀ S : Set P, S.Nonempty → ∃ x, IsGLB S x ] := by
+theorem theorem_2_31 [PartialOrder P] :
+    List.TFAE
+      [Nonempty
+          { cl : CompleteLattice P //
+              cl.toCompleteSemilatticeSup.toPartialOrder = (inferInstance : PartialOrder P) },
+        ∀ S : Set P, ∃ x, IsLUB S x,
+        (∃ t : P, ∀ y, y ≤ t) ∧ ∀ S : Set P, S.Nonempty → ∃ x, IsGLB S x] := by
   tfae_have 1 → 2 := by
     rintro ⟨cl, hcl⟩
     cases hcl
     letI := cl
     intro S
-    exact ⟨sInf S, isGLB_sInf S⟩
-  tfae_have 2 → 3 := by
-    intro h
-    constructor
-    · obtain ⟨x, hx⟩ := h ∅
-      exact ⟨x, isGLB_empty_iff.mp hx⟩
-    · intro S hS
-      obtain ⟨x, hx⟩ := h S
-      exact ⟨x, hx⟩
-  tfae_have 3 → 1 := by
-    intro ⟨⟨t, ht⟩, hInf'⟩
-    classical
-    -- sInf S := GLB of S when nonempty, otherwise the top element t
-    let sInf (S : Set P) : P :=
-      if h : S.Nonempty then Classical.choose (hInf' S h) else t
-    have hsInf (S : Set P) : IsGLB S (sInf S) := by
-      rcases S.eq_empty_or_nonempty with hS | hS
-      · subst hS
-        rw [isGLB_empty_iff]
-        dsimp only [sInf]
-        split_ifs with h
-        · exact absurd h Set.not_nonempty_empty
-        · exact ht
-      · simp only [sInf, hS]; exact Classical.choose_spec (hInf' S hS)
-    letI : InfSet P := ⟨sInf⟩
-    exact ⟨⟨completeLatticeOfInf P hsInf, rfl⟩⟩
+    exact ⟨sSup S, isLUB_sSup S⟩
+  tfae_have 2 → 3 := by sorry
+  tfae_have 3 → 1 := by sorry
   tfae_finish
-
-
--- TODO: check this
-lemma lemma_2_32_meet {X : Type*} (L : Set (Set X)) (A : ι → Set X) (hA : ∀ i, A i ∈ L)
-    (hAL : ⋃ i, A i ∈ L) (hX : Set.univ ∈ L) :
-    Nonempty (CompleteLattice L) ∧
-    sInf (Set.range A) = ⋂ i, A i := by
-  sorry
-
-
-lemma lemma_2_32_join {X : Type*} (L : Set (Set X)) (A : ι → Set X) (hA : ∀ i, A i ∈ L)
-    (hAL : ⋃ i, A i ∈ L) (hX : Set.univ ∈ L) :
-    Nonempty (CompleteLattice L) ∧
-    sSup (Set.range A) = ⋂₀ { B | B ∈ L ∧ ⋃ i, A i ⊆ B } := by
-    -- ⋂₀ is the intersection of all elements of the set
-  sorry
 
 namespace InterStructure
 
 variable {X : Type*}
+
 
 
 /-- `L` is closed under nonempty intersections of subfamilies. -/
@@ -366,40 +264,7 @@ lemma isToppedInterStructure_iff (L : Set (Set X)) :
     exact ⟨h.2.2, ⟨h.1, h.2.1⟩⟩
 
 
-/-- The family `𝓛_C = {A ⊆ X | C A = A}` of closed subsets, as a set of subsets. -/
-def closedFamily (C : ClosureOperator (Set X)) : Set (Set X) :=
-  {A | C.IsClosed A}
-
-/-- `closedFamily C` is exactly the carrier of `C.Closeds`. -/
-lemma closedFamily_eq (C : ClosureOperator (Set X)) :
-    closedFamily C = Set.range (Subtype.val : C.Closeds → Set X) := by
-  ext A
-  simp only [closedFamily, Set.mem_setOf_eq, Set.mem_range]
-  constructor
-  · intro hA
-    exact ⟨⟨A, hA⟩, rfl⟩
-  · rintro ⟨a, ha⟩
-    simpa [ha] using a.2
-
-
-/-- `𝓛_C` is a topped `⋂`-structure: `univ ∈ 𝓛_C` and closed under nonempty intersections. -/
-theorem closedFamily_isToppedInterStructure (C : ClosureOperator (Set X)) :
-    IsToppedInterStructure (closedFamily C) := by
-  refine ⟨?_, ⟨?_, ?_⟩⟩
-  · simp only [closedFamily]
-    exact C.isClosed_top
-  · use Set.univ
-    simp only [closedFamily]
-    exact C.isClosed_top
-  · intro S hS hSne
-    rw [closedFamily] at hS ⊢
-    exact C.sInf_isClosed fun A hA => by simpa using hS hA
-
-
 end InterStructure
-
-
-
 
 -- definitions of ACC and DCC
 
