@@ -1,0 +1,26 @@
+---
+description: Multi-root workspace — prefix Semiformalizing-lattices/ in chat links and cross-root paths
+alwaysApply: true
+---
+
+# Workspace (Semiformalizing-lattices)
+
+This repository folder is **`Semiformalizing-lattices`**. In **multi-root** Cursor workspaces, sibling repos often share identical relative paths (`bibliography/README.md`, `references.bib`, `.cursor/rules/bibliography.mdc`, etc.).
+
+## Paths in agent chat
+
+When citing or linking files from **this** repository in chat:
+
+- **Always** prefix with the workspace folder path: `Semiformalizing-lattices/...`
+- **Never** use bare paths such as `bibliography/README.md`, `references.bib`, or `.cursor/rules/bibliography.mdc` — Cursor may resolve them to a **different** workspace root.
+
+Examples:
+
+- ✅ `Semiformalizing-lattices/bibliography/README.md`
+- ✅ `Semiformalizing-lattices/.cursor/rules/bibliography.mdc`
+- ❌ `bibliography/README.md`
+- ❌ `.cursor/rules/bibliography.mdc`
+
+## Paths on disk inside this repo
+
+Markdown and LaTeX **within** this folder keep normal repo-relative links. The prefix rule applies to **chat replies** and **cross-root** references only.

@@ -17,7 +17,8 @@ The following block is copied verbatim in `chapman-alignment-faking/.cursor/rule
 
 In narrative prose:
 
-- Use Markdown `**bold**` sparingly. As a rule of thumb, **at most one bold span per sentence** (often zero is better).
+- Follow **[`bib-mcp/docs/document-prose.md`](../../../bib-mcp/docs/document-prose.md)** for full norms (structural `**Remark:**` / `**Definition:**` labels OK; at most one bold span per running sentence).
+- As a rule of thumb here: **at most one bold span per sentence** in ordinary prose (often zero is better).
 - Prefer structure from headings, lists, and backticks for paths, commands, and identifiers instead of bold emphasis.
 - Do not bold every list label or every proper noun unless emphasis is genuinely needed for the reader.
 
