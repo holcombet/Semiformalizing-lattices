@@ -38,3 +38,5 @@ These will be the important ones. Two other ones are much more experimental:
 ---
 
 This file: Entry point for how proof material moves through this repository. **Normative rules** live in the policy files below; this note is the map and the **cross-level workflow**. A separate architecture note may be added later for structure-only description; design decisions stay here or in policy over time.
+
+**Harness / agent-loop background** (Cursor mechanics, CoT vs tools, blueprint for a local harness): [`ai-math-formal-methods/readers/agent-harness-and-autoformalization.md`](../../ai-math-formal-methods/readers/agent-harness-and-autoformalization.md).
